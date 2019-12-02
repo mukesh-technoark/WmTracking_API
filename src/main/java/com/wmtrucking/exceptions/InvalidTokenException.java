@@ -7,6 +7,10 @@ public class InvalidTokenException extends Exception {
 
     List<String> errors = new ArrayList<>();
 
+    public InvalidTokenException(String msg) {
+        super(msg);
+    }
+
     public InvalidTokenException(String msg, List<String> errors) {
         super(msg);
         this.errors = errors;

@@ -6,6 +6,7 @@
 package com.wmtrucking.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -77,6 +80,12 @@ public class MaDriver implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "status")
     private String status;
+
+    @Column(name = "otp")
+    private Long OTP;
+    @Column(name = "otp_expire_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otp_expire_time;
     @OneToMany(mappedBy = "driverId")
     private List<MaJobs> maJobsList;
 
@@ -109,6 +118,22 @@ public class MaDriver implements Serializable {
 
     public void setMiddlename(String middlename) {
         this.middlename = middlename;
+    }
+
+    public Long getOTP() {
+        return OTP;
+    }
+
+    public void setOTP(Long OTP) {
+        this.OTP = OTP;
+    }
+
+    public Date getOtp_expire_time() {
+        return otp_expire_time;
+    }
+
+    public void setOtp_expire_time(Date otp_expire_time) {
+        this.otp_expire_time = otp_expire_time;
     }
 
     public String getLastname() {
@@ -239,5 +264,5 @@ public class MaDriver implements Serializable {
     public String toString() {
         return "com.wmtrucking.entity.MaDriver[ id=" + id + " ]";
     }
-    
+
 }

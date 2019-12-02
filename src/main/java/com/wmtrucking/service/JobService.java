@@ -5,11 +5,12 @@
  */
 package com.wmtrucking.service;
 
-import com.wmtrucking.entity.MaCustomer;
-import com.wmtrucking.repository.CustomerRepository;
+import com.wmtrucking.entity.MaJobs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import com.wmtrucking.repository.JobRepository;
+import java.util.List;
 
 /**
  *
@@ -17,12 +18,17 @@ import org.springframework.stereotype.Service;
  */
 @Scope(value = "request")
 @Service
-public class CustomerService {
+public class JobService {
 
     @Autowired
-    CustomerRepository customerRepository;
+    JobRepository jobRepository;
 
-    public MaCustomer findByPhoneAndStatus(String phone, String status) {
-        return findByPhoneAndStatus(phone, status);
+    public void save(MaJobs maJobs) {
+        jobRepository.save(maJobs);
     }
+
+    public List<MaJobs> findListOfJob(Long driverid, String status) {
+        return jobRepository.findListOfJob(driverid, status);
+    }
+
 }

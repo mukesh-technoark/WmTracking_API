@@ -13,6 +13,10 @@ public class InvalidHeaderException extends Exception {
         this.errors = errors;
     }
 
+    public InvalidHeaderException(String toString) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public List<String> getErrors() {
         return errors;
     }

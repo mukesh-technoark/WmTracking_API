@@ -5,7 +5,9 @@
  */
 package com.wmtrucking.repository;
 
-import com.wmtrucking.entity.MaCustomer;
+import com.wmtrucking.entity.MaDriver;
+import com.wmtrucking.entity.MaJobs;
+import java.util.List;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,9 +19,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Scope(value = "request")
-public interface CustomerRepository extends JpaRepository<MaCustomer, Long> {
+public interface JobRepository extends JpaRepository<MaJobs, Long> {
 
-    @Query(nativeQuery = true, value = "select * from  ma_customer where phone=?1 and status=?2 ")
-    MaCustomer findByPhoneAndStatus(String phone, String status);
+    @Query(nativeQuery = true, value = "select * from  ma_jobs where driver_id=?1 and status=?2 ")
+    List<MaJobs> findListOfJob(Long driverId, String status);
 
 }
