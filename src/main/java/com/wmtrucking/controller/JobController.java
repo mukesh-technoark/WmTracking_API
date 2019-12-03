@@ -5,13 +5,23 @@
  */
 package com.wmtrucking.controller;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.wmtrucking.CommonResponseService;
+import com.wmtrucking.dtos.CommonResponse;
+import com.wmtrucking.dtos.LoginResponseDto;
+import com.wmtrucking.entity.MaJobs;
 import com.wmtrucking.exceptions.InvalidHeaderException;
+import com.wmtrucking.exceptions.InvalidTokenException;
 import com.wmtrucking.service.JobService;
 import com.wmtrucking.utils.AppUtil;
+import com.wmtrucking.utils.Constant;
+import com.wmtrucking.utils.MaJWT;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -34,30 +44,25 @@ public class JobController {
     AppUtil appUtil;
     @Autowired
     JobService jobService;
-    
-//     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-//    public ResponseEntity<Object> authentication(Model model, HttpServletRequest request,  @RequestHeader(name = "devicetoken") String devicetoken,
-//            @RequestHeader(name = "apptoken") String apptoken,defaultValue = "hi", name = "json") @RequestBody String json) throws InvalidHeaderException {
-//    
-//        JsonObject requestData = new JsonParser().parse(json).getAsJsonObject();
-//
-//        appUtil.checkHeaders(request);
-//
-//        MaDriver maDriver = driverService.findByPhoneAndStatus(requestData.get("phone").getAsString(), "Active");
-//        if (maDriver == null) {
-//            // commonResponseService.setResponse(response, 0, "Please Proper Mobile number ", null);
-//            return new ResponseEntity(new CommonResponse("Please provide Proper Mobile number", null, 0, null), HttpStatus.CREATED);
-//        }
-//        String RandomeCode = "9999";
-//
-//        maDriver.setOTP(Long.parseLong(RandomeCode));
-//        Calendar smadate = Calendar.getInstance();
-//        smadate.setTime(new Date());
-//        smadate.add(Calendar.MINUTE, 2);
-//
-//        maDriver.setOtp_expire_time(smadate.getTime());
-//        driverService.save(maDriver);
-//        return new ResponseEntity(new CommonResponse("Please verify your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(maDriver.getId(), 120)), 1, null), HttpStatus.CREATED);
-//
-//    }
+
+    @Autowired
+    MaJWT maJWT;
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<Object> list(Model model, HttpServletRequest request, @RequestHeader("Authorization") String Authorization,
+            @RequestHeader("apptoken") String apptoken, @RequestHeader("devicetoken") String devicetoken) throws InvalidHeaderException, InvalidTokenException {
+
+        //  JsonObject requestData = new JsonParser().parse(json).getAsJsonObject();
+        appUtil.checkHeadersWithAuth(request);
+        String id = maJWT.getId(appUtil.getJwt(request), Authorization, devicetoken);
+
+        if (id == null) {
+            throw new InvalidTokenException("Your session is expired.");
+        }
+        Long driverid = Long.valueOf(id);
+        List<MaJobs> maJobs = jobService.findListOfJob(driverid, Constant.ACTIVE.toString());
+       
+        return new ResponseEntity(new CommonResponse("Fetch list of job sucessfully ", maJobs, 1, null), HttpStatus.CREATED);
+
+    }
 }

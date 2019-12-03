@@ -5,7 +5,6 @@
  */
 package com.wmtrucking.dtos;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +21,5 @@ public class RequestOtpDto {
     }
 
     @NotNull(message = "Please provide valid otp")
-    @NotEmpty(message = "Please provide valid otp")
     private Long otp;
 }

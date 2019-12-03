@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import io.jsonwebtoken.Claims;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -99,12 +98,12 @@ public class AuthenticationController {
             Date d2 = new Date();
             // When Date d1 > Date d2 
             if (d1.compareTo(d2) > 0) {
-                return new ResponseEntity(new CommonResponse("OTP is successfully varified .", new OTPVarifyDto(maDriver.getId().toString()), 1, null), HttpStatus.CREATED);
+                return new ResponseEntity(new CommonResponse("OTP is successfully varified .", new OTPVarifyDto(new MaJWT().generate(maDriver.getId())), 1, null), HttpStatus.CREATED);
             } else {
                 return new ResponseEntity(new CommonResponse("Your OTP is expired ", null, 0, null), HttpStatus.CREATED);
             }
         }
-        return new ResponseEntity(new CommonResponse("Please Enter proper OTP ", null, 0, null), HttpStatus.CREATED);
+        return new ResponseEntity(new CommonResponse("Please Enter proper OTP ",  null, 0, null), HttpStatus.CREATED);
 
     }
 }

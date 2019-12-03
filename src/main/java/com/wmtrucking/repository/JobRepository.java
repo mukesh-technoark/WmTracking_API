@@ -5,7 +5,6 @@
  */
 package com.wmtrucking.repository;
 
-import com.wmtrucking.entity.MaDriver;
 import com.wmtrucking.entity.MaJobs;
 import java.util.List;
 import org.springframework.context.annotation.Scope;

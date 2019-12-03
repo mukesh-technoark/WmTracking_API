@@ -18,4 +18,5 @@ public class LoginResponseDto {
 
     private String code;
     private String authorization;
+    
 }

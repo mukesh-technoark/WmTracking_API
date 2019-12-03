@@ -27,15 +27,21 @@ public class MaJWT {
 
     Algorithm algorithm = Algorithm.HMAC256(Constant.JWT_KEY.toString());
 
-    public String generate(Long id,
-            String username,
-            String host,
-            String devicetoken) throws JWTCreationException {
+//    public String generate(Long id,
+//            String username,
+//            String host,
+//            String devicetoken) throws JWTCreationException {
+//        return JWT.create()
+//                .withJWTId(String.valueOf(id))
+//                .withIssuer("786")
+//                .withClaim("username", username)
+//                .withClaim("host", host)
+//                .sign(algorithm);
+//    }
+      public String generate(Long id) throws JWTCreationException {
         return JWT.create()
                 .withJWTId(String.valueOf(id))
-                .withIssuer("786")
-                .withClaim("username", username)
-                .withClaim("host", host)
+                .withIssuer("786")              
                 .sign(algorithm);
     }
 

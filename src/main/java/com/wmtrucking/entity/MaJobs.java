@@ -5,6 +5,7 @@
  */
 package com.wmtrucking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -85,9 +86,13 @@ public class MaJobs implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "pincode")
     private String pincode;
+
+    @JsonIgnore
     @JoinColumn(name = "cust_id", referencedColumnName = "id")
     @ManyToOne
     private MaCustomer custId;
+
+    @JsonIgnore
     @JoinColumn(name = "driver_id", referencedColumnName = "id")
     @ManyToOne
     private MaDriver driverId;
