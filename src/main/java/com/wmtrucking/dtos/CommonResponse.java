@@ -7,13 +7,13 @@ public class CommonResponse {
 
     private String message;
     private Object data;
-    private int code;
+    private int status;
     private List<String> errors;
 
-    public CommonResponse(String message, Object data, int code, List<String> errors) {
+    public CommonResponse(String message, Object data, int status, List<String> errors) {
         this.message = message;
         this.data = data;
-        this.code = code;
+        this.status = status;
         this.errors = errors;
     }
 
@@ -41,12 +41,12 @@ public class CommonResponse {
         this.data = data;
     }
 
-    public int getCode() {
-        return code;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setStatus(int code) {
+        this.status = code;
     }
 
 }

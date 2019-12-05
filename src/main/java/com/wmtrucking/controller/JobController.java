@@ -5,11 +5,8 @@
  */
 package com.wmtrucking.controller;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.wmtrucking.CommonResponseService;
 import com.wmtrucking.dtos.CommonResponse;
-import com.wmtrucking.dtos.LoginResponseDto;
 import com.wmtrucking.entity.MaJobs;
 import com.wmtrucking.exceptions.InvalidHeaderException;
 import com.wmtrucking.exceptions.InvalidTokenException;
@@ -57,11 +54,13 @@ public class JobController {
         String id = maJWT.getId(appUtil.getJwt(request), Authorization, devicetoken);
 
         if (id == null) {
-            throw new InvalidTokenException("Your session is expired.");
+            // throw new InvalidTokenException("Your session is expired.");
+            return new ResponseEntity(new CommonResponse("Your session is expired", null, 0, null), HttpStatus.CREATED);
+
         }
         Long driverid = Long.valueOf(id);
         List<MaJobs> maJobs = jobService.findListOfJob(driverid, Constant.ACTIVE.toString());
-       
+
         return new ResponseEntity(new CommonResponse("Fetch list of job sucessfully ", maJobs, 1, null), HttpStatus.CREATED);
 
     }

@@ -87,7 +87,9 @@ public class AuthenticationController {
         String id = maJWT.getId(appUtil.getJwt(request), Authorization, devicetoken);
 
         if (id == null) {
-            throw new InvalidTokenException("Your session is expired.");
+            //  throw new InvalidTokenException("Your session is expired.");
+            return new ResponseEntity(new CommonResponse("Your session is expired", null, 0, null), HttpStatus.CREATED);
+
         }
         Long authid = Long.valueOf(id);
 
@@ -103,7 +105,7 @@ public class AuthenticationController {
                 return new ResponseEntity(new CommonResponse("Your OTP is expired ", null, 0, null), HttpStatus.CREATED);
             }
         }
-        return new ResponseEntity(new CommonResponse("Please Enter proper OTP ",  null, 0, null), HttpStatus.CREATED);
+        return new ResponseEntity(new CommonResponse("Please Enter proper OTP ", null, 0, null), HttpStatus.CREATED);
 
     }
 }

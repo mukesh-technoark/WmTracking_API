@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
@@ -30,7 +29,7 @@ public class CommonException {
 
         if (cause instanceof ConstraintViolationException) {
             Set<ConstraintViolation<?>> constraintViolations = ((ConstraintViolationException) cause).getConstraintViolations();
-            return new CommonResponse("Validation Error", null, 6666, Arrays.asList(constraintViolations.toString()));
+            return new CommonResponse("Validation Error", null, 0, Arrays.asList(constraintViolations.toString()));
         }
         return null;
     }
@@ -38,19 +37,19 @@ public class CommonException {
     // this is most serious error
     @ExceptionHandler(InvalidHeaderException.class)
     public CommonResponse invalidHeader(InvalidHeaderException ex) {
-        return new CommonResponse("Header-Fraud Detected", null, 7866, ex.getErrors());
+        return new CommonResponse("Header-Fraud Detected", null, 0, ex.getErrors());
     }
 
     @ExceptionHandler(InvalidTokenException.class)
     public CommonResponse invalidHeader(InvalidTokenException ex) {
-        return new CommonResponse("Validation Error", null, 7866, ex.getErrors());
+        return new CommonResponse("Validation Error", null, 0, ex.getErrors());
     }
 
     // General Exception
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public CommonResponse handleException(final Exception exception, final HttpServletRequest request) {
-        return new CommonResponse("Error", null, 6666, Arrays.asList(exception.getMessage()));
+        return new CommonResponse("Error", null, 0, Arrays.asList(exception.getMessage()));
     }
 
 //    @ExceptionHandler(FileUploadException.class)
@@ -60,18 +59,18 @@ public class CommonException {
 
     @ExceptionHandler(CustomValidationException.class)
     public CommonResponse customValidation(CustomValidationException ex) {
-        return new CommonResponse("Validation Error", null, 6666, ex.getErrors());
+        return new CommonResponse("Validation Error", null, 0, ex.getErrors());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public CommonResponse invalidInput(MethodArgumentNotValidException ex) {
 
         BindingResult result = ex.getBindingResult();
-        return new CommonResponse("Validation Error", null, 6666, ValidationUtil.fromBindingErrors(result));
+        return new CommonResponse("Validation Error", null, 0, ValidationUtil.fromBindingErrors(result));
     }
 
     @ExceptionHandler(JWTVerificationException.class)
     public CommonResponse invalidRuntimeToken(JWTVerificationException exception) {
-        return new CommonResponse("Validation Error", null, 6666, Arrays.asList(exception.getMessage()));
+        return new CommonResponse("Validation Error", null, 0, Arrays.asList(exception.getMessage()));
     }
 }
