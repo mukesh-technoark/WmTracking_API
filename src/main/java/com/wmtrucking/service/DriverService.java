@@ -30,8 +30,11 @@ public class DriverService {
         return driverRepository.findByPhoneAndStatus(phone, status);
     }
 
-    public MaDriver findByUserForOTPvarify(Long otp, String status,Long id) {
-        return driverRepository.findByUserForOTPvarify(otp, status, id );
+    public MaDriver findByUserForOTPvarify(Long otp, String status, Long id) {
+        return driverRepository.findByUserForOTPvarify(otp, status, id);
+    }
 
+    public MaDriver findById(Long id, String status) {
+        return driverRepository.findById(id, status);
     }
 }

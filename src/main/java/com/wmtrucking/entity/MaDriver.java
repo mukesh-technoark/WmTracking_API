@@ -11,10 +11,13 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,11 +30,12 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "ma_driver")
+@SequenceGenerator(name = "ma_driver_seq", sequenceName = "ma_driver_seq", allocationSize = 1)
+
 @NamedQueries({
     @NamedQuery(name = "MaDriver.findAll", query = "SELECT m FROM MaDriver m")})
 public class MaDriver implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Size(max = 2147483647)
     @Column(name = "licensenumber")
     private String licensenumber;
@@ -72,28 +76,105 @@ public class MaDriver implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "email")
     private String email;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Long id;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 2147483647)
     @Column(name = "status")
     private String status;
-
     @Column(name = "otp")
-    private Long OTP;
+    private Long otp;
+    @OneToMany(mappedBy = "driverId")
+    private List<MaJobTracking> maJobTrackingList;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ma_driver_seq")
+
+    @Column(name = "id")
+    private Long id;
     @Column(name = "otp_expire_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date otp_expire_time;
+    private Date otpExpireTime;
+    @Column(name = "createddate")
+    @Temporal(TemporalType.DATE)
+    private Date createddate;
+    @OneToMany(mappedBy = "driverid")
+    private List<MaJobs> maJobsCollection;
     @OneToMany(mappedBy = "driverId")
-    private List<MaJobs> maJobsList;
+    private List<MaJobDriver> maJobDriverCollection;
 
     public MaDriver() {
     }
 
     public MaDriver(Long id) {
         this.id = id;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public Date getOtpExpireTime() {
+        return otpExpireTime;
+    }
+
+    public void setOtpExpireTime(Date otpExpireTime) {
+        this.otpExpireTime = otpExpireTime;
+    }
+
+    public Date getCreateddate() {
+        return createddate;
+    }
+
+    public void setCreateddate(Date createddate) {
+        this.createddate = createddate;
+    }
+
+    public List<MaJobs> getMaJobsCollection() {
+        return maJobsCollection;
+    }
+
+    public void setMaJobsCollection(List<MaJobs> maJobsCollection) {
+        this.maJobsCollection = maJobsCollection;
+    }
+
+    public List<MaJobDriver> getMaJobDriverCollection() {
+        return maJobDriverCollection;
+    }
+
+    public void setMaJobDriverCollection(List<MaJobDriver> maJobDriverCollection) {
+        this.maJobDriverCollection = maJobDriverCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof MaDriver)) {
+            return false;
+        }
+        MaDriver other = (MaDriver) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.wmtrucking.entity.MaDriver[ id=" + id + " ]";
     }
 
     public String getLicensenumber() {
@@ -118,22 +199,6 @@ public class MaDriver implements Serializable {
 
     public void setMiddlename(String middlename) {
         this.middlename = middlename;
-    }
-
-    public Long getOTP() {
-        return OTP;
-    }
-
-    public void setOTP(Long OTP) {
-        this.OTP = OTP;
-    }
-
-    public Date getOtp_expire_time() {
-        return otp_expire_time;
-    }
-
-    public void setOtp_expire_time(Date otp_expire_time) {
-        this.otp_expire_time = otp_expire_time;
     }
 
     public String getLastname() {
@@ -216,14 +281,6 @@ public class MaDriver implements Serializable {
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -232,37 +289,20 @@ public class MaDriver implements Serializable {
         this.status = status;
     }
 
-    public List<MaJobs> getMaJobsList() {
-        return maJobsList;
+    public Long getOtp() {
+        return otp;
     }
 
-    public void setMaJobsList(List<MaJobs> maJobsList) {
-        this.maJobsList = maJobsList;
+    public void setOtp(Long otp) {
+        this.otp = otp;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public List<MaJobTracking> getMaJobTrackingList() {
+        return maJobTrackingList;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MaDriver)) {
-            return false;
-        }
-        MaDriver other = (MaDriver) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.wmtrucking.entity.MaDriver[ id=" + id + " ]";
+    public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
+        this.maJobTrackingList = maJobTrackingList;
     }
 
 }

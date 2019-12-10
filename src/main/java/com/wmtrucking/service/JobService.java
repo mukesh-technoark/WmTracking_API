@@ -27,8 +27,12 @@ public class JobService {
         jobRepository.save(maJobs);
     }
 
-    public List<MaJobs> findListOfJob(Long driverid, String status) {
-        return jobRepository.findListOfJob(driverid, status);
+    public List<MaJobs> findListOfJob(String status, String jobStatus, Long driverId) {
+        return jobRepository.findListOfJob(status, jobStatus, driverId);
+    }
+
+    public MaJobs findPendingJob(Long jobId, String status,   Long driverId) {
+        return jobRepository.findPendingJob(jobId, status, driverId);
     }
 
 }

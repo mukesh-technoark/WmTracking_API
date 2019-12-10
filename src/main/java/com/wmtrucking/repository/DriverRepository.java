@@ -22,7 +22,10 @@ public interface DriverRepository extends JpaRepository<MaDriver, Long> {
     @Query(nativeQuery = true, value = "select * from  ma_driver where mobile=?1 and status=?2 ")
     MaDriver findByPhoneAndStatus(String phone, String status);
 
+    @Query(nativeQuery = true, value = "select * from  ma_driver where id=?1 and status=?2 ")
+    MaDriver findById(Long id, String status);
+
     @Query(nativeQuery = true, value = "select * from  ma_driver where otp=?1 and status=?2 and id=?3 ")
-    MaDriver findByUserForOTPvarify(Long otp, String status,Long id);
+    MaDriver findByUserForOTPvarify(Long otp, String status, Long id);
 
 }

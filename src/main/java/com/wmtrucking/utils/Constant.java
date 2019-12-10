@@ -7,8 +7,6 @@ public enum Constant {
             return "X3qGRkZY-BB786BB-XYZ6653-HMAC256";
         }
     },
-  
-   
     FILEUPLOAD_PATH {
         @Override
         public String toString() {
@@ -17,9 +15,6 @@ public enum Constant {
 //            return MODE.toString().equals("local") ? "/Users/admin/Downloads/Uploads/" : "/upload/equi360v3/";
         }
     },
-  
- 
-   
     APPTOKEN {
         @Override
         public String toString() {
@@ -71,7 +66,6 @@ public enum Constant {
         }
 
     },
-   
     AESENCRYPTKEY {
         @Override
         public String toString() {
@@ -89,21 +83,39 @@ public enum Constant {
         public String toString() {
             return "Please Login to continue"; //To change body of generated methods, choose Tools | Templates.
         }
-    }, 
-   
-   
+    },
     ACTIVE {
         @Override
         public String toString() {
             return "Active"; //To change body of generated methods, choose Tools | Templates.
         }
-   
+
+    },
+    ACCEPTED {
+        @Override
+        public String toString() {
+            return "Accepted"; //To change body of generated methods, choose Tools | Templates.
+        }
+
+    },CLOSE {
+        @Override
+        public String toString() {
+            return "Close"; //To change body of generated methods, choose Tools | Templates.
+        }
+
+    },
+    PENDING {
+        @Override
+        public String toString() {
+            return "Pending";
+        }
+
     }, INACTIVE {
         @Override
         public String toString() {
             return "Inactive"; //To change body of generated methods, choose Tools | Templates.
         }
-    }, 
+    },
     SUCCESSFUL {
         @Override
         public String toString() {
@@ -122,7 +134,6 @@ public enum Constant {
             return "Deleted"; //To change body of generated methods, choose Tools | Templates.
         }
     },
-   
     RECORD_SAVED {
         @Override
         public String toString() {

@@ -68,12 +68,12 @@ public class AuthenticationController {
         }
         String RandomeCode = "9999";
 
-        maDriver.setOTP(Long.parseLong(RandomeCode));
+        maDriver.setOtp(Long.parseLong(RandomeCode));
         Calendar smadate = Calendar.getInstance();
         smadate.setTime(new Date());
         smadate.add(Calendar.MINUTE, 2);
 
-        maDriver.setOtp_expire_time(smadate.getTime());
+        maDriver.setOtpExpireTime(smadate.getTime());
         driverService.save(maDriver);
         return new ResponseEntity(new CommonResponse("Please verify your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(maDriver.getId(), 120)), 1, null), HttpStatus.CREATED);
 
@@ -96,7 +96,7 @@ public class AuthenticationController {
         MaDriver maDriver = driverService.findByUserForOTPvarify(requestOtpDto.getOtp(), Constant.ACTIVE.toString(), authid);
         if (maDriver != null) {
 
-            Date d1 = maDriver.getOtp_expire_time();
+            Date d1 = maDriver.getOtpExpireTime();
             Date d2 = new Date();
             // When Date d1 > Date d2 
             if (d1.compareTo(d2) > 0) {

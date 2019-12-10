@@ -7,15 +7,21 @@ package com.wmtrucking.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,22 +34,15 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "ma_jobs")
+@SequenceGenerator(name = "ma_jobs_seq", sequenceName = "ma_jobs_seq", allocationSize = 1)
+
 @NamedQueries({
     @NamedQuery(name = "MaJobs.findAll", query = "SELECT m FROM MaJobs m")})
 public class MaJobs implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Long id;
     @Size(max = 2147483647)
     @Column(name = "jobnumber")
     private String jobnumber;
-    @Column(name = "jobdate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date jobdate;
     @Size(max = 4000)
     @Column(name = "notes")
     private String notes;
@@ -59,9 +58,6 @@ public class MaJobs implements Serializable {
     @Size(max = 255)
     @Column(name = "selectfill")
     private String selectfill;
-    @Column(name = "createddate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createddate;
     @Size(max = 2147483647)
     @Column(name = "other")
     private String other;
@@ -86,6 +82,55 @@ public class MaJobs implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "pincode")
     private String pincode;
+    @Size(max = 2147483647)
+    @Column(name = "request_status")
+    private String requestStatus;
+    @Size(max = 2147483647)
+    @Column(name = "sand")
+    private String sand;
+    @Size(max = 2147483647)
+    @Column(name = "common_hourly")
+    private String commonHourly;
+    @Size(max = 255)
+    @Column(name = "jobname")
+    private String jobname;
+    @Size(max = 2147483647)
+    @Column(name = "job_status")
+    private String jobStatus;
+    @OneToMany(mappedBy = "jobId")
+    private List<MaJobTracking> maJobTrackingList;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ma_jobs_seq")
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "jobdate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date jobdate;
+    @Column(name = "createddate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createddate;
+    @Column(name = "modifiedddate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifiedddate;
+    @Column(name = "job_assignddate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date jobAssignddate;
+    @Column(name = "fromlatitude")
+    private BigDecimal fromlatitude;
+    @Column(name = "tolatitude")
+    private BigDecimal tolatitude;
+
+    @Column(name = "fromlongitude")
+    private BigDecimal fromlongitude;
+    @Column(name = "tolongitude")
+    private BigDecimal tolongitude;
+    @JsonIgnore
+    @JoinColumn(name = "createdby", referencedColumnName = "authid")
+    @ManyToOne
+    private MaAuthobject createdby;
 
     @JsonIgnore
     @JoinColumn(name = "cust_id", referencedColumnName = "id")
@@ -93,9 +138,12 @@ public class MaJobs implements Serializable {
     private MaCustomer custId;
 
     @JsonIgnore
-    @JoinColumn(name = "driver_id", referencedColumnName = "id")
+    @JoinColumn(name = "driverid", referencedColumnName = "id")
     @ManyToOne
-    private MaDriver driverId;
+    private MaDriver driverid;
+    @JsonIgnore
+    @OneToMany(mappedBy = "jobId")
+    private List<MaJobDriver> maJobDriverCollection;
 
     public MaJobs() {
     }
@@ -112,12 +160,36 @@ public class MaJobs implements Serializable {
         this.id = id;
     }
 
-    public String getJobnumber() {
-        return jobnumber;
+    public BigDecimal getFromlatitude() {
+        return fromlatitude;
     }
 
-    public void setJobnumber(String jobnumber) {
-        this.jobnumber = jobnumber;
+    public void setFromlatitude(BigDecimal fromlatitude) {
+        this.fromlatitude = fromlatitude;
+    }
+
+    public BigDecimal getTolatitude() {
+        return tolatitude;
+    }
+
+    public void setTolatitude(BigDecimal tolatitude) {
+        this.tolatitude = tolatitude;
+    }
+
+    public BigDecimal getFromlongitude() {
+        return fromlongitude;
+    }
+
+    public void setFromlongitude(BigDecimal fromlongitude) {
+        this.fromlongitude = fromlongitude;
+    }
+
+    public BigDecimal getTolongitude() {
+        return tolongitude;
+    }
+
+    public void setTolongitude(BigDecimal tolongitude) {
+        this.tolongitude = tolongitude;
     }
 
     public Date getJobdate() {
@@ -126,6 +198,119 @@ public class MaJobs implements Serializable {
 
     public void setJobdate(Date jobdate) {
         this.jobdate = jobdate;
+    }
+
+    public Date getCreateddate() {
+        return createddate;
+    }
+
+    public void setCreateddate(Date createddate) {
+        this.createddate = createddate;
+    }
+
+    public String getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(String requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public String getCommonHourly() {
+        return commonHourly;
+    }
+
+    public void setCommonHourly(String commonHourly) {
+        this.commonHourly = commonHourly;
+    }
+
+    public Date getModifiedddate() {
+        return modifiedddate;
+    }
+
+    public void setModifiedddate(Date modifiedddate) {
+        this.modifiedddate = modifiedddate;
+    }
+
+    public Date getJobAssignddate() {
+        return jobAssignddate;
+    }
+
+    public void setJobAssignddate(Date jobAssignddate) {
+        this.jobAssignddate = jobAssignddate;
+    }
+
+    public String getJobStatus() {
+        return jobStatus;
+    }
+
+    public void setJobStatus(String jobStatus) {
+        this.jobStatus = jobStatus;
+    }
+
+    public MaAuthobject getCreatedby() {
+        return createdby;
+    }
+
+    public void setCreatedby(MaAuthobject createdby) {
+        this.createdby = createdby;
+    }
+
+    public MaCustomer getCustId() {
+        return custId;
+    }
+
+    public void setCustId(MaCustomer custId) {
+        this.custId = custId;
+    }
+
+    public MaDriver getDriverid() {
+        return driverid;
+    }
+
+    public void setDriverid(MaDriver driverid) {
+        this.driverid = driverid;
+    }
+
+    public List<MaJobDriver> getMaJobDriverCollection() {
+        return maJobDriverCollection;
+    }
+
+    public void setMaJobDriverCollection(List<MaJobDriver> maJobDriverCollection) {
+        this.maJobDriverCollection = maJobDriverCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof MaJobs)) {
+            return false;
+        }
+        MaJobs other = (MaJobs) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.wmtrucking.entity.MaJobs[ id=" + id + " ]";
+    }
+
+    public String getJobnumber() {
+        return jobnumber;
+    }
+
+    public void setJobnumber(String jobnumber) {
+        this.jobnumber = jobnumber;
     }
 
     public String getNotes() {
@@ -166,14 +351,6 @@ public class MaJobs implements Serializable {
 
     public void setSelectfill(String selectfill) {
         this.selectfill = selectfill;
-    }
-
-    public Date getCreateddate() {
-        return createddate;
-    }
-
-    public void setCreateddate(Date createddate) {
-        this.createddate = createddate;
     }
 
     public String getOther() {
@@ -240,45 +417,49 @@ public class MaJobs implements Serializable {
         this.pincode = pincode;
     }
 
-    public MaCustomer getCustId() {
-        return custId;
+//    public String getRequestStatus() {
+//        return requestStatus;
+//    }
+//
+//    public void setRequestStatus(String requestStatus) {
+//        this.requestStatus = requestStatus;
+//    }
+    public String getSand() {
+        return sand;
     }
 
-    public void setCustId(MaCustomer custId) {
-        this.custId = custId;
+    public void setSand(String sand) {
+        this.sand = sand;
     }
 
-    public MaDriver getDriverId() {
-        return driverId;
+//    public String getCommonHourly() {
+//        return commonHourly;
+//    }
+//
+//    public void setCommonHourly(String commonHourly) {
+//        this.commonHourly = commonHourly;
+//    }
+    public String getJobname() {
+        return jobname;
     }
 
-    public void setDriverId(MaDriver driverId) {
-        this.driverId = driverId;
+    public void setJobname(String jobname) {
+        this.jobname = jobname;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+//    public String getJobStatus() {
+//        return jobStatus;
+//    }
+//
+//    public void setJobStatus(String jobStatus) {
+//        this.jobStatus = jobStatus;
+//    }
+    public List<MaJobTracking> getMaJobTrackingList() {
+        return maJobTrackingList;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MaJobs)) {
-            return false;
-        }
-        MaJobs other = (MaJobs) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
+        this.maJobTrackingList = maJobTrackingList;
     }
 
-    @Override
-    public String toString() {
-        return "com.wmtrucking.entity.MaJobs[ id=" + id + " ]";
-    }
-    
 }
