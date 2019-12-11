@@ -5,9 +5,11 @@
  */
 package com.wmtrucking.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -50,15 +52,6 @@ public class MaJobs implements Serializable {
     @Column(name = "status")
     private String status;
     @Size(max = 2147483647)
-    @Column(name = "hauloff")
-    private String hauloff;
-    @Size(max = 2147483647)
-    @Column(name = "haulback")
-    private String haulback;
-    @Size(max = 255)
-    @Column(name = "selectfill")
-    private String selectfill;
-    @Size(max = 2147483647)
     @Column(name = "other")
     private String other;
     @Size(max = 2147483647)
@@ -85,18 +78,35 @@ public class MaJobs implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "request_status")
     private String requestStatus;
-    @Size(max = 2147483647)
-    @Column(name = "sand")
-    private String sand;
-    @Size(max = 2147483647)
-    @Column(name = "common_hourly")
-    private String commonHourly;
     @Size(max = 255)
     @Column(name = "jobname")
     private String jobname;
     @Size(max = 2147483647)
     @Column(name = "job_status")
     private String jobStatus;
+    @Column(name = "hauloff")
+    private Boolean hauloff;
+    @Column(name = "haulback")
+    private Boolean haulback;
+    @Column(name = "selectfill")
+    private Boolean selectfill;
+    @Column(name = "sand")
+    private Boolean sand;
+    @Column(name = "common_hourly")
+    private Boolean commonHourly;
+    @Column(name = "fromlatitude")
+    private BigInteger fromlatitude;
+    @Column(name = "tolatitude")
+    private BigInteger tolatitude;
+    @Column(name = "fromlongitude")
+    private BigInteger fromlongitude;
+    @Column(name = "tolongitude")
+    private BigInteger tolongitude;
+    @Column(name = "totaljobcount")
+    private BigInteger totaljobcount;
+    @JoinColumn(name = "driver_id", referencedColumnName = "id")
+    @ManyToOne
+    private MaDriver driverId;
     @OneToMany(mappedBy = "jobId")
     private List<MaJobTracking> maJobTrackingList;
     private static final long serialVersionUID = 1L;
@@ -106,27 +116,25 @@ public class MaJobs implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ma_jobs_seq")
     @Column(name = "id")
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @Column(name = "jobdate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date jobdate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @Column(name = "createddate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createddate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @Column(name = "modifiedddate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedddate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @Column(name = "job_assignddate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date jobAssignddate;
-    @Column(name = "fromlatitude")
-    private BigDecimal fromlatitude;
-    @Column(name = "tolatitude")
-    private BigDecimal tolatitude;
-
-    @Column(name = "fromlongitude")
-    private BigDecimal fromlongitude;
-    @Column(name = "tolongitude")
-    private BigDecimal tolongitude;
     @JsonIgnore
     @JoinColumn(name = "createdby", referencedColumnName = "authid")
     @ManyToOne
@@ -160,37 +168,6 @@ public class MaJobs implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getFromlatitude() {
-        return fromlatitude;
-    }
-
-    public void setFromlatitude(BigDecimal fromlatitude) {
-        this.fromlatitude = fromlatitude;
-    }
-
-    public BigDecimal getTolatitude() {
-        return tolatitude;
-    }
-
-    public void setTolatitude(BigDecimal tolatitude) {
-        this.tolatitude = tolatitude;
-    }
-
-    public BigDecimal getFromlongitude() {
-        return fromlongitude;
-    }
-
-    public void setFromlongitude(BigDecimal fromlongitude) {
-        this.fromlongitude = fromlongitude;
-    }
-
-    public BigDecimal getTolongitude() {
-        return tolongitude;
-    }
-
-    public void setTolongitude(BigDecimal tolongitude) {
-        this.tolongitude = tolongitude;
-    }
 
     public Date getJobdate() {
         return jobdate;
@@ -216,14 +193,7 @@ public class MaJobs implements Serializable {
         this.requestStatus = requestStatus;
     }
 
-    public String getCommonHourly() {
-        return commonHourly;
-    }
-
-    public void setCommonHourly(String commonHourly) {
-        this.commonHourly = commonHourly;
-    }
-
+    
     public Date getModifiedddate() {
         return modifiedddate;
     }
@@ -304,6 +274,12 @@ public class MaJobs implements Serializable {
     public String toString() {
         return "com.wmtrucking.entity.MaJobs[ id=" + id + " ]";
     }
+    public List<MaJobTracking> getMaJobTrackingList() {
+        return maJobTrackingList;
+    }
+    public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
+        this.maJobTrackingList = maJobTrackingList;
+    }
 
     public String getJobnumber() {
         return jobnumber;
@@ -327,30 +303,6 @@ public class MaJobs implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getHauloff() {
-        return hauloff;
-    }
-
-    public void setHauloff(String hauloff) {
-        this.hauloff = hauloff;
-    }
-
-    public String getHaulback() {
-        return haulback;
-    }
-
-    public void setHaulback(String haulback) {
-        this.haulback = haulback;
-    }
-
-    public String getSelectfill() {
-        return selectfill;
-    }
-
-    public void setSelectfill(String selectfill) {
-        this.selectfill = selectfill;
     }
 
     public String getOther() {
@@ -416,29 +368,7 @@ public class MaJobs implements Serializable {
     public void setPincode(String pincode) {
         this.pincode = pincode;
     }
-
-//    public String getRequestStatus() {
-//        return requestStatus;
-//    }
-//
-//    public void setRequestStatus(String requestStatus) {
-//        this.requestStatus = requestStatus;
-//    }
-    public String getSand() {
-        return sand;
-    }
-
-    public void setSand(String sand) {
-        this.sand = sand;
-    }
-
-//    public String getCommonHourly() {
-//        return commonHourly;
-//    }
-//
-//    public void setCommonHourly(String commonHourly) {
-//        this.commonHourly = commonHourly;
-//    }
+    
     public String getJobname() {
         return jobname;
     }
@@ -447,19 +377,92 @@ public class MaJobs implements Serializable {
         this.jobname = jobname;
     }
 
-//    public String getJobStatus() {
-//        return jobStatus;
-//    }
-//
-//    public void setJobStatus(String jobStatus) {
-//        this.jobStatus = jobStatus;
-//    }
-    public List<MaJobTracking> getMaJobTrackingList() {
-        return maJobTrackingList;
+    public Boolean getHauloff() {
+        return hauloff;
     }
 
-    public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
-        this.maJobTrackingList = maJobTrackingList;
+    public void setHauloff(Boolean hauloff) {
+        this.hauloff = hauloff;
+    }
+
+    public Boolean getHaulback() {
+        return haulback;
+    }
+
+    public void setHaulback(Boolean haulback) {
+        this.haulback = haulback;
+    }
+
+    public Boolean getSelectfill() {
+        return selectfill;
+    }
+
+    public void setSelectfill(Boolean selectfill) {
+        this.selectfill = selectfill;
+    }
+
+    public Boolean getSand() {
+        return sand;
+    }
+
+    public void setSand(Boolean sand) {
+        this.sand = sand;
+    }
+
+    public Boolean getCommonHourly() {
+        return commonHourly;
+    }
+
+    public void setCommonHourly(Boolean commonHourly) {
+        this.commonHourly = commonHourly;
+    }
+
+    public BigInteger getFromlatitude() {
+        return fromlatitude;
+    }
+
+    public void setFromlatitude(BigInteger fromlatitude) {
+        this.fromlatitude = fromlatitude;
+    }
+
+    public BigInteger getTolatitude() {
+        return tolatitude;
+    }
+
+    public void setTolatitude(BigInteger tolatitude) {
+        this.tolatitude = tolatitude;
+    }
+
+    public BigInteger getFromlongitude() {
+        return fromlongitude;
+    }
+
+    public void setFromlongitude(BigInteger fromlongitude) {
+        this.fromlongitude = fromlongitude;
+    }
+
+    public BigInteger getTolongitude() {
+        return tolongitude;
+    }
+
+    public void setTolongitude(BigInteger tolongitude) {
+        this.tolongitude = tolongitude;
+    }
+
+    public BigInteger getTotaljobcount() {
+        return totaljobcount;
+    }
+
+    public void setTotaljobcount(BigInteger totaljobcount) {
+        this.totaljobcount = totaljobcount;
+    }
+
+    public MaDriver getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(MaDriver driverId) {
+        this.driverId = driverId;
     }
 
 }

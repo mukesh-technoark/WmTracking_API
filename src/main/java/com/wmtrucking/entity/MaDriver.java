@@ -6,6 +6,7 @@
 package com.wmtrucking.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -72,6 +73,7 @@ public class MaDriver implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "mobile")
     private String mobile;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 2147483647)
     @Column(name = "email")
@@ -175,6 +177,12 @@ public class MaDriver implements Serializable {
     @Override
     public String toString() {
         return "com.wmtrucking.entity.MaDriver[ id=" + id + " ]";
+    }
+    public List<MaJobTracking> getMaJobTrackingList() {
+        return maJobTrackingList;
+    }
+    public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
+        this.maJobTrackingList = maJobTrackingList;
     }
 
     public String getLicensenumber() {
@@ -295,14 +303,6 @@ public class MaDriver implements Serializable {
 
     public void setOtp(Long otp) {
         this.otp = otp;
-    }
-
-    public List<MaJobTracking> getMaJobTrackingList() {
-        return maJobTrackingList;
-    }
-
-    public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
-        this.maJobTrackingList = maJobTrackingList;
     }
 
 }

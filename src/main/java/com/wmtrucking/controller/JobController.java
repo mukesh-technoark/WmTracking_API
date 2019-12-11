@@ -73,11 +73,11 @@ public class JobController {
         return new ResponseEntity(new CommonResponse("No record found ", null, 1, null), HttpStatus.CREATED);
 
     }
-
-//    @RequestMapping(value = "/accept/{jobid}", method = RequestMethod.GET)
+    
+//    @RequestMapping(value = "/jobUpdate", method = RequestMethod.POST)
 //    public ResponseEntity<Object> accept(Model model, HttpServletRequest request, @RequestHeader("Authorization") String Authorization,
-//            @RequestHeader("apptoken") String apptoken, @RequestHeader("devicetoken") String devicetoken,
-//            @PathVariable("jobid") Long jobid) throws InvalidHeaderException, InvalidTokenException {
+//            @RequestHeader("apptoken") String apptoken, @RequestHeader("devicetoken") String devicetoken, @RequestBody String json) throws InvalidHeaderException, InvalidTokenException {
+//        JsonObject requestData = new JsonParser().parse(json).getAsJsonObject();
 //
 //        appUtil.checkHeadersWithAuth(request);
 //        String id = maJWT.getId(appUtil.getJwt(request), Authorization, devicetoken);
@@ -85,68 +85,42 @@ public class JobController {
 //            return new ResponseEntity(new CommonResponse("Your session is expired", null, 0, null), HttpStatus.CREATED);
 //
 //        }
+//        if (!requestData.has("status")) {
+//            return new ResponseEntity(new CommonResponse("Please provide status ", null, 0, null), HttpStatus.CREATED);
+//        }
+//        if (requestData.get("status").isJsonNull()) {
+//            return new ResponseEntity(new CommonResponse("Please provide status ", null, 0, null), HttpStatus.CREATED);
+//        }
+//        if (!requestData.has("jobid")) {
+//            return new ResponseEntity(new CommonResponse("Please provide jobid ", null, 0, null), HttpStatus.CREATED);
+//        }
+//        if (requestData.get("jobid").isJsonNull()) {
+//            return new ResponseEntity(new CommonResponse("Please provide jobid ", null, 0, null), HttpStatus.CREATED);
+//        }
+//
+//        String jobstatus = requestData.get("status").getAsString();
+//       
 //        Long driverid = Long.valueOf(id);
-//        MaJobs maJobs = jobService.findPendingJob(jobid, Constant.ACTIVE.toString(), Constant.PENDING.toString(), driverid);
+//           System.out.println("jobstatus.0011."+ jobstatus);
+//        MaJobs maJobs = jobService.findPendingJob(Long.parseLong(requestData.get("jobid").getAsString()), Constant.ACTIVE.toString(), driverid);
+//          System.out.println("jobstatus.11."+ jobstatus);
 //        if (maJobs != null) {
+//            String status = "";
 //            MaDriver maDriver = driverService.findById(driverid, Constant.ACTIVE.toString());
 //            maJobs.setDriverid(maDriver);
-//            maJobs.setJobStatus(Constant.ACTIVATED.toString());
+//             System.out.println("jobstatus.."+ jobstatus);
+//            if (jobstatus.equalsIgnoreCase(Constant.ACCEPTED.toString())) {
+//                maJobs.setJobStatus(Constant.ACCEPTED.toString());
+//                status = Constant.ACCEPTED.toString();
+//            } else if (jobstatus.equalsIgnoreCase(Constant.CLOSE.toString())) {
+//                maJobs.setJobStatus(Constant.CLOSE.toString());
+//                status = Constant.CLOSE.toString();
+//            }
 //            jobService.save(maJobs);
-//            return new ResponseEntity(new CommonResponse("Job sucessfully Activated", maJobs, 1, null), HttpStatus.CREATED);
+//            return new ResponseEntity(new CommonResponse(status, maJobs, 1, null), HttpStatus.CREATED);
 //        }
 //        return new ResponseEntity(new CommonResponse("Something went wrong ", null, 0, null), HttpStatus.CREATED);
 //
 //    }
-    @RequestMapping(value = "/jobUpdate", method = RequestMethod.POST)
-    public ResponseEntity<Object> accept(Model model, HttpServletRequest request, @RequestHeader("Authorization") String Authorization,
-            @RequestHeader("apptoken") String apptoken, @RequestHeader("devicetoken") String devicetoken, @RequestBody String json) throws InvalidHeaderException, InvalidTokenException {
-        JsonObject requestData = new JsonParser().parse(json).getAsJsonObject();
-
-        appUtil.checkHeadersWithAuth(request);
-        String id = maJWT.getId(appUtil.getJwt(request), Authorization, devicetoken);
-        if (id == null) {
-            return new ResponseEntity(new CommonResponse("Your session is expired", null, 0, null), HttpStatus.CREATED);
-
-        }
-        if (!requestData.has("status")) {
-            return new ResponseEntity(new CommonResponse("Please provide status ", null, 0, null), HttpStatus.CREATED);
-        }
-        if (requestData.get("status").isJsonNull()) {
-            return new ResponseEntity(new CommonResponse("Please provide status ", null, 0, null), HttpStatus.CREATED);
-        }
-        if (!requestData.has("jobid")) {
-            return new ResponseEntity(new CommonResponse("Please provide jobid ", null, 0, null), HttpStatus.CREATED);
-        }
-        if (requestData.get("jobid").isJsonNull()) {
-            return new ResponseEntity(new CommonResponse("Please provide jobid ", null, 0, null), HttpStatus.CREATED);
-        }
-
-        String jobstatus = requestData.get("status").getAsString();
-       
-        Long driverid = Long.valueOf(id);
-           System.out.println("jobstatus.0011."+ jobstatus);
-        MaJobs maJobs = jobService.findPendingJob(Long.parseLong(requestData.get("jobid").getAsString()), Constant.ACTIVE.toString(), driverid);
-          System.out.println("jobstatus.11."+ jobstatus);
-        if (maJobs != null) {
-            String status = "";
-             System.out.println("jobstatus.11."+ jobstatus);
-            MaDriver maDriver = driverService.findById(driverid, Constant.ACTIVE.toString());
-            maJobs.setDriverid(maDriver);
-             System.out.println("jobstatus.."+ jobstatus);
-            if (jobstatus.equalsIgnoreCase(Constant.ACCEPTED.toString())) {
-                maJobs.setJobStatus(Constant.ACCEPTED.toString());
-                status = Constant.ACCEPTED.toString();
-            } else if (jobstatus.equalsIgnoreCase(Constant.CLOSE.toString())) {
-                maJobs.setJobStatus(Constant.CLOSE.toString());
-                status = Constant.CLOSE.toString();
-            }
-                    System.out.println("jobstatus11.."+ maJobs.getJobStatus());
-
-            jobService.save(maJobs);
-            return new ResponseEntity(new CommonResponse(status, maJobs, 1, null), HttpStatus.CREATED);
-        }
-        return new ResponseEntity(new CommonResponse("Something went wrong ", null, 0, null), HttpStatus.CREATED);
-
-    }
 
 }

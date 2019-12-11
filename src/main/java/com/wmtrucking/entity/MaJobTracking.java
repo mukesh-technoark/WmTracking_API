@@ -25,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -38,6 +39,14 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "MaJobTracking.findAll", query = "SELECT m FROM MaJobTracking m")})
 public class MaJobTracking implements Serializable {
 
+    @Column(name = "latitude")
+    private BigDecimal latitude;
+    @Column(name = "longitude")
+    private BigDecimal longitude;
+    @Size(max = 2147483647)
+    @Column(name = "status")
+    private String status;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -46,10 +55,6 @@ public class MaJobTracking implements Serializable {
 
     @Column(name = "id")
     private Long id;
-    @Column(name = "latitude")
-    private BigDecimal latitude;
-    @Column(name = "longitude")
-    private BigDecimal longitude;
     @Column(name = "createddate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createddate;
@@ -78,21 +83,6 @@ public class MaJobTracking implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public BigDecimal getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
 
     public Date getCreateddate() {
         return createddate;
@@ -141,6 +131,30 @@ public class MaJobTracking implements Serializable {
     @Override
     public String toString() {
         return "com.wmtrucking.entity.MaJobTracking[ id=" + id + " ]";
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }
