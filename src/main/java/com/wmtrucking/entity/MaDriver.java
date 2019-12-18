@@ -5,8 +5,9 @@
  */
 package com.wmtrucking.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -52,27 +53,28 @@ public class MaDriver implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "address1")
     private String address1;
-    @Size(max = 2147483647)
-    @Column(name = "address2")
-    private String address2;
-    @Size(max = 2147483647)
-    @Column(name = "address3")
-    private String address3;
+//    @Size(max = 2147483647)
+//    @Column(name = "address2")
+//    private String address2;
+//    @Size(max = 2147483647)
+//    @Column(name = "address3")
+ //   private String address3;
     @Size(max = 2147483647)
     @Column(name = "city")
     private String city;
     @Size(max = 2147483647)
     @Column(name = "state")
     private String state;
-    @Size(max = 2147483647)
-    @Column(name = "country")
-    private String country;
+//    @Size(max = 2147483647)
+//    @Column(name = "country")
+//    private String country;
     @Size(max = 2147483647)
     @Column(name = "pincode")
     private String pincode;
     @Size(max = 2147483647)
     @Column(name = "mobile")
     private String mobile;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 2147483647)
@@ -84,6 +86,10 @@ public class MaDriver implements Serializable {
     private String status;
     @Column(name = "otp")
     private Long otp;
+    @JsonIgnore
+    @OneToMany(mappedBy = "driverDetails")
+    private List<MaJobTransaction> maJobTransactionList;
+    @JsonIgnore
     @OneToMany(mappedBy = "driverId")
     private List<MaJobTracking> maJobTrackingList;
     private static final long serialVersionUID = 1L;
@@ -94,14 +100,18 @@ public class MaDriver implements Serializable {
 
     @Column(name = "id")
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @Column(name = "otp_expire_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otpExpireTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @Column(name = "createddate")
     @Temporal(TemporalType.DATE)
     private Date createddate;
-    @OneToMany(mappedBy = "driverid")
-    private List<MaJobs> maJobsCollection;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "driverDetail")
+//    private List<MaJobs> maJobsCollection;
+    @JsonIgnore
     @OneToMany(mappedBy = "driverId")
     private List<MaJobDriver> maJobDriverCollection;
 
@@ -112,7 +122,6 @@ public class MaDriver implements Serializable {
         this.id = id;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -120,7 +129,6 @@ public class MaDriver implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public Date getOtpExpireTime() {
         return otpExpireTime;
@@ -138,13 +146,13 @@ public class MaDriver implements Serializable {
         this.createddate = createddate;
     }
 
-    public List<MaJobs> getMaJobsCollection() {
-        return maJobsCollection;
-    }
-
-    public void setMaJobsCollection(List<MaJobs> maJobsCollection) {
-        this.maJobsCollection = maJobsCollection;
-    }
+//    public List<MaJobs> getMaJobsCollection() {
+//        return maJobsCollection;
+//    }
+//
+//    public void setMaJobsCollection(List<MaJobs> maJobsCollection) {
+//        this.maJobsCollection = maJobsCollection;
+//    }
 
     public List<MaJobDriver> getMaJobDriverCollection() {
         return maJobDriverCollection;
@@ -178,9 +186,11 @@ public class MaDriver implements Serializable {
     public String toString() {
         return "com.wmtrucking.entity.MaDriver[ id=" + id + " ]";
     }
+
     public List<MaJobTracking> getMaJobTrackingList() {
         return maJobTrackingList;
     }
+
     public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
         this.maJobTrackingList = maJobTrackingList;
     }
@@ -225,21 +235,9 @@ public class MaDriver implements Serializable {
         this.address1 = address1;
     }
 
-    public String getAddress2() {
-        return address2;
-    }
+  
 
-    public void setAddress2(String address2) {
-        this.address2 = address2;
-    }
-
-    public String getAddress3() {
-        return address3;
-    }
-
-    public void setAddress3(String address3) {
-        this.address3 = address3;
-    }
+    
 
     public String getCity() {
         return city;
@@ -257,13 +255,7 @@ public class MaDriver implements Serializable {
         this.state = state;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
+   
 
     public String getPincode() {
         return pincode;
@@ -303,6 +295,14 @@ public class MaDriver implements Serializable {
 
     public void setOtp(Long otp) {
         this.otp = otp;
+    }
+
+    public List<MaJobTransaction> getMaJobTransactionList() {
+        return maJobTransactionList;
+    }
+
+    public void setMaJobTransactionList(List<MaJobTransaction> maJobTransactionList) {
+        this.maJobTransactionList = maJobTransactionList;
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 public class CommonResponse {
 
-
     private String message;
     private Object data;
     private int status;
@@ -16,6 +15,8 @@ public class CommonResponse {
         this.status = status;
         this.errors = errors;
     }
+
+   
 
     public List<String> getErrors() {
         return errors;
@@ -40,6 +41,8 @@ public class CommonResponse {
     public void setData(Object data) {
         this.data = data;
     }
+
+   
 
     public int getStatus() {
         return status;

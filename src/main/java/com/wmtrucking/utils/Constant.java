@@ -91,13 +91,34 @@ public enum Constant {
         }
 
     },
+    STARTED {
+        @Override
+        public String toString() {
+            return "Started";
+        }
+
+    },
+    ENDED {
+        @Override
+        public String toString() {
+            return "Ended";
+        }
+
+    },
+    COMPLETED {
+        @Override
+        public String toString() {
+            return "Completed";
+        }
+
+    },
     ACCEPTED {
         @Override
         public String toString() {
             return "Accepted"; //To change body of generated methods, choose Tools | Templates.
         }
 
-    },CLOSE {
+    }, CLOSE {
         @Override
         public String toString() {
             return "Close"; //To change body of generated methods, choose Tools | Templates.

@@ -15,5 +15,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class OTPVarifyDto {
+
     private String authorization;
+    private Long id;
+    private String firstname;
+    private String middlename;
+    private String lastname;
 }

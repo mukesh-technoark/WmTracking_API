@@ -75,7 +75,7 @@ public class AuthenticationController {
 
         maDriver.setOtpExpireTime(smadate.getTime());
         driverService.save(maDriver);
-        return new ResponseEntity(new CommonResponse("Please verify your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(maDriver.getId(), 120)), 1, null), HttpStatus.CREATED);
+        return new ResponseEntity(new CommonResponse("Please verified your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(maDriver.getId(), 120)), 1, null), HttpStatus.CREATED);
 
     }
 
@@ -100,7 +100,8 @@ public class AuthenticationController {
             Date d2 = new Date();
             // When Date d1 > Date d2 
             if (d1.compareTo(d2) > 0) {
-                return new ResponseEntity(new CommonResponse("OTP is successfully varified .", new OTPVarifyDto(new MaJWT().generate(maDriver.getId())), 1, null), HttpStatus.CREATED);
+                // return new ResponseEntity(new CommonResponse("OTP is successfully verified .", new OTPVarifyDto(new MaJWT().generate(maDriver.getId())), 1, null), HttpStatus.CREATED);
+                return new ResponseEntity(new CommonResponse("OTP is successfully verified .", new OTPVarifyDto(new MaJWT().generate(maDriver.getId()), maDriver.getId(), maDriver.getFirstname(), maDriver.getMiddlename(), maDriver.getLastname()), 1, null), HttpStatus.CREATED);
             } else {
                 return new ResponseEntity(new CommonResponse("Your OTP is expired ", null, 0, null), HttpStatus.CREATED);
             }

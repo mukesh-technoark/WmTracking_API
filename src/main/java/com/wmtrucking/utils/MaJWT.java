@@ -11,12 +11,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.wmtrucking.exceptions.InvalidTokenException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import javax.xml.bind.DatatypeConverter;
 import org.springframework.stereotype.Component;
 
 /**

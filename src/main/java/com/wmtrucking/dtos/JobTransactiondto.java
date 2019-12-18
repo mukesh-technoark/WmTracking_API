@@ -1,0 +1,36 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.wmtrucking.dtos;
+
+import java.math.BigDecimal;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+/**
+ *
+ * @author Admin
+ */
+@Data
+@AllArgsConstructor
+public class JobTransactiondto {
+
+    public JobTransactiondto() {
+    }
+ 
+
+    
+    @NotNull(message = "Please provide valid job id")
+    private Long job_id;
+
+    @NotNull(message = "Please provide valid flag")
+    @NotBlank(message = "Please provide valid flag")
+    private String flag;
+    
+    
+
+}
