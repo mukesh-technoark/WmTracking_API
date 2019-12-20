@@ -7,6 +7,7 @@ package com.wmtrucking.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wmtrucking.utils.DateUtils;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -74,21 +75,63 @@ public class MaJobs implements Serializable {
 //    @Size(max = 2147483647)
 //    @Column(name = "pincode")
 //    private String pincode;
-    @Size(max = 2147483647)
+    @Column(name = "address1")
 //    @Column(name = "request_status")
 //    private String requestStatus;
+    private String address1;
+    @Size(max = 2147483647)
+    @Column(name = "address2")
+    private String address2;
+    @Size(max = 2147483647)
+    @Column(name = "address3")
+    private String address3;
+    @Size(max = 2147483647)
+    @Column(name = "city")
+    private String city;
+    @Size(max = 2147483647)
+    @Column(name = "state")
+    private String state;
+    @Size(max = 2147483647)
+    @Column(name = "country")
+    private String country;
+    @Size(max = 2147483647)
+    @Column(name = "pincode")
+    private String pincode;
+    @Size(max = 2147483647)
+    @Column(name = "request_status")
+    private String requestStatus;
     @Size(max = 255)
     @Column(name = "jobname")
     private String jobname;
     @Size(max = 2147483647)
     @Column(name = "job_status")
     private String jobStatus;
+    @Column(name = "fromlatitude")
+    private BigDecimal fromlatitude;
+    @Column(name = "tolatitude")
+    private BigDecimal tolatitude;
+    @Column(name = "fromlongitude")
+    private BigDecimal fromlongitude;
+    @Column(name = "tolongitude")
+    private BigDecimal tolongitude;
+    @Column(name = "totaljobcount")
+    private Long totaljobcount;
     @Size(max = 2147483647)
     @Column(name = "lodingaddress")
     private String lodingaddress;
     @Size(max = 2147483647)
     @Column(name = "dumpingaddress")
     private String dumpingaddress;
+    @Size(max = 2147483647)
+    @Column(name = "price")
+    private String price;
+    @JoinColumn(name = "driverid", referencedColumnName = "id")
+    @ManyToOne
+    private MaDriver driverid;
+    @JoinColumn(name = "driver_id", referencedColumnName = "id")
+    @ManyToOne
+    private MaDriver driverId;
+
     @OneToMany(mappedBy = "jobId")
     private List<MaJobTransaction> maJobTransactionList;
     @Column(name = "hauloff")
@@ -103,16 +146,6 @@ public class MaJobs implements Serializable {
     private Boolean common;
     @Column(name = "hourly")
     private Boolean Hourly;
-    @Column(name = "fromlatitude")
-    private BigDecimal fromlatitude;
-    @Column(name = "tolatitude")
-    private BigDecimal tolatitude;
-    @Column(name = "fromlongitude")
-    private BigDecimal fromlongitude;
-    @Column(name = "tolongitude")
-    private BigDecimal tolongitude;
-    @Column(name = "totaljobcount")
-    private Long totaljobcount;
 
     @OneToMany(mappedBy = "jobId")
     private List<MaJobTracking> maJobTrackingList;
@@ -123,7 +156,9 @@ public class MaJobs implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ma_jobs_seq")
     @Column(name = "id")
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "PST")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "jobdate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date jobdate;
@@ -152,7 +187,9 @@ public class MaJobs implements Serializable {
 //    @JoinColumn(name = "driverid", referencedColumnName = "id")
 //    @ManyToOne
 //    private MaDriver driverDetail;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "jobId")
+    private List<MaJobCustomer> maJobCustomerList;
     @JsonIgnore
     @OneToMany(mappedBy = "jobId")
     private List<MaJobDriver> maJobDriverCollection;
@@ -172,8 +209,11 @@ public class MaJobs implements Serializable {
         this.id = id;
     }
 
-    public Date getJobdate() {
-        return jobdate;
+//    public Date getJobdate() {
+//        return jobdate;
+//    }
+    public String getJobdate() {
+        return new DateUtils().dateWithFormat(jobdate, "yyyy-MM-dd");
     }
 
     public void setJobdate(Date jobdate) {
@@ -187,8 +227,6 @@ public class MaJobs implements Serializable {
     public void setCreateddate(Date createddate) {
         this.createddate = createddate;
     }
-
- 
 
     public Date getModifiedddate() {
         return modifiedddate;
@@ -311,6 +349,125 @@ public class MaJobs implements Serializable {
         this.Hourly = Hourly;
     }
 
+    public List<MaJobTransaction> getMaJobTransactionList() {
+        return maJobTransactionList;
+    }
+
+    public void setMaJobTransactionList(List<MaJobTransaction> maJobTransactionList) {
+        this.maJobTransactionList = maJobTransactionList;
+    }
+
+    public String getJobnumber() {
+        return jobnumber;
+    }
+
+    public void setJobnumber(String jobnumber) {
+        this.jobnumber = jobnumber;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
+
+//    public MaDriver getDriverId() {
+//        return driverDetail;
+//    }
+//
+//    public void setDriverId(MaDriver driverId) {
+//        this.driverDetail = driverId;
+//    }
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getAddress3() {
+        return address3;
+    }
+
+    public void setAddress3(String address3) {
+        this.address3 = address3;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(String requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public String getJobname() {
+        return jobname;
+    }
+
+    public void setJobname(String jobname) {
+        this.jobname = jobname;
+    }
+
     public BigDecimal getFromlatitude() {
         return fromlatitude;
     }
@@ -351,55 +508,6 @@ public class MaJobs implements Serializable {
         this.totaljobcount = totaljobcount;
     }
 
-//    public MaDriver getDriverId() {
-//        return driverDetail;
-//    }
-//
-//    public void setDriverId(MaDriver driverId) {
-//        this.driverDetail = driverId;
-//    }
-
-    public String getJobnumber() {
-        return jobnumber;
-    }
-
-    public void setJobnumber(String jobnumber) {
-        this.jobnumber = jobnumber;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getOther() {
-        return other;
-    }
-
-    public void setOther(String other) {
-        this.other = other;
-    }
-
-  
-    public String getJobname() {
-        return jobname;
-    }
-
-    public void setJobname(String jobname) {
-        this.jobname = jobname;
-    }
-
     public String getLodingaddress() {
         return lodingaddress;
     }
@@ -416,12 +524,36 @@ public class MaJobs implements Serializable {
         this.dumpingaddress = dumpingaddress;
     }
 
-    public List<MaJobTransaction> getMaJobTransactionList() {
-        return maJobTransactionList;
+    public String getPrice() {
+        return price;
     }
 
-    public void setMaJobTransactionList(List<MaJobTransaction> maJobTransactionList) {
-        this.maJobTransactionList = maJobTransactionList;
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public MaDriver getDriverid() {
+        return driverid;
+    }
+
+    public void setDriverid(MaDriver driverid) {
+        this.driverid = driverid;
+    }
+
+    public MaDriver getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(MaDriver driverId) {
+        this.driverId = driverId;
+    }
+
+    public List<MaJobCustomer> getMaJobCustomerList() {
+        return maJobCustomerList;
+    }
+
+    public void setMaJobCustomerList(List<MaJobCustomer> maJobCustomerList) {
+        this.maJobCustomerList = maJobCustomerList;
     }
 
 }

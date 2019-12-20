@@ -8,6 +8,7 @@ package com.wmtrucking.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -60,14 +61,27 @@ public class MaDriver implements Serializable {
 //    @Column(name = "address3")
  //   private String address3;
     @Size(max = 2147483647)
+    @Column(name = "address2")
+    private String address2;
+    @Size(max = 2147483647)
+    @Column(name = "address3")
+    private String address3;
+//    @Size(max = 2147483647)
+//    @Column(name = "country")
+//    private String country;
+    @Size(max = 2147483647)
     @Column(name = "city")
     private String city;
     @Size(max = 2147483647)
     @Column(name = "state")
     private String state;
-//    @Size(max = 2147483647)
-//    @Column(name = "country")
-//    private String country;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 2147483647)
+    @Column(name = "country")
+    private String country;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 2147483647)
     @Column(name = "pincode")
     private String pincode;
@@ -75,17 +89,18 @@ public class MaDriver implements Serializable {
     @Column(name = "mobile")
     private String mobile;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 2147483647)
     @Column(name = "email")
     private String email;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 2147483647)
     @Column(name = "status")
     private String status;
     @Column(name = "otp")
     private Long otp;
+    @OneToMany(mappedBy = "driverid")
+    private List<MaJobs> maJobsList;
+    @OneToMany(mappedBy = "driverId")
+    private List<MaJobs> maJobsList1;
     @JsonIgnore
     @OneToMany(mappedBy = "driverDetails")
     private List<MaJobTransaction> maJobTransactionList;
@@ -194,6 +209,12 @@ public class MaDriver implements Serializable {
     public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
         this.maJobTrackingList = maJobTrackingList;
     }
+    public List<MaJobTransaction> getMaJobTransactionList() {
+        return maJobTransactionList;
+    }
+    public void setMaJobTransactionList(List<MaJobTransaction> maJobTransactionList) {
+        this.maJobTransactionList = maJobTransactionList;
+    }
 
     public String getLicensenumber() {
         return licensenumber;
@@ -227,6 +248,10 @@ public class MaDriver implements Serializable {
         this.lastname = lastname;
     }
 
+  
+
+    
+
     public String getAddress1() {
         return address1;
     }
@@ -235,9 +260,23 @@ public class MaDriver implements Serializable {
         this.address1 = address1;
     }
 
-  
+    public String getAddress2() {  
+        return address2;
+    }
 
-    
+    public void setAddress2(String address2) {    
+        this.address2 = address2;
+    }
+
+   
+
+    public String getAddress3() {
+        return address3;
+    }
+
+    public void setAddress3(String address3) {
+        this.address3 = address3;
+    }
 
     public String getCity() {
         return city;
@@ -255,7 +294,13 @@ public class MaDriver implements Serializable {
         this.state = state;
     }
 
-   
+    public String getCountry() {   
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public String getPincode() {
         return pincode;
@@ -297,12 +342,20 @@ public class MaDriver implements Serializable {
         this.otp = otp;
     }
 
-    public List<MaJobTransaction> getMaJobTransactionList() {
-        return maJobTransactionList;
+    public List<MaJobs> getMaJobsList() {
+        return maJobsList;
     }
 
-    public void setMaJobTransactionList(List<MaJobTransaction> maJobTransactionList) {
-        this.maJobTransactionList = maJobTransactionList;
+    public void setMaJobsList(List<MaJobs> maJobsList) {
+        this.maJobsList = maJobsList;
+    }
+
+    public List<MaJobs> getMaJobsList1() {
+        return maJobsList1;
+    }
+
+    public void setMaJobsList1(List<MaJobs> maJobsList1) {
+        this.maJobsList1 = maJobsList1;
     }
 
 }

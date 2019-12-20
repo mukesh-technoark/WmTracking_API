@@ -89,7 +89,6 @@ public class AuthenticationController {
         if (id == null) {
             //  throw new InvalidTokenException("Your session is expired.");
             return new ResponseEntity(new CommonResponse("Your session is expired", null, 0, null), HttpStatus.CREATED);
-
         }
         Long authid = Long.valueOf(id);
 

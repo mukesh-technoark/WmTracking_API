@@ -73,7 +73,7 @@ public class MaJWT {
                     .require(algorithm)
                     .build();
             return verifier.verify(token).getId();
-
+            
         } catch (Exception e) {
             throw new InvalidTokenException("Error", Arrays.asList("Your sessoin is expired."));
         }
