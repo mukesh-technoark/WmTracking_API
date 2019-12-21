@@ -19,6 +19,7 @@ import com.wmtrucking.utils.Constant;
 import com.wmtrucking.utils.MaJWT;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class JobController {
         if (maJobs != null && maJobs.size() > 0) {
             return new ResponseEntity(new CommonResponse("Fetch list of job successfully ", maJobs, 1, null), HttpStatus.CREATED);
         }
-        return new ResponseEntity(new CommonResponse("No record found ", null, 1, null), HttpStatus.CREATED);
+        return new ResponseEntity(new CommonResponse("No record found ", new ArrayList<>(), 1, null), HttpStatus.CREATED);
     }
 
 //    @RequestMapping(value = "/jobUpdate", method = RequestMethod.POST)
