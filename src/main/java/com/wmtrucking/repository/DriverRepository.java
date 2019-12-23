@@ -19,8 +19,11 @@ import org.springframework.stereotype.Repository;
 @Scope(value = "request")
 public interface DriverRepository extends JpaRepository<MaDriver, Long> {
 
-    @Query(nativeQuery = true, value = "select * from  ma_driver where mobile=?1 and status=?2 ")
-    MaDriver findByPhoneAndStatus(String phone, String status);
+//    @Query(nativeQuery = true, value = "select * from  ma_driver where mobile=?1 and status=?2 ")
+//    MaDriver findByPhoneAndStatus(String phone, String status);
+   
+    @Query(nativeQuery = true, value = "select * from  ma_driver where mobile=?1 and status=?2 and countrycode=?3")
+    MaDriver findByPhoneAndStatus(String phone, String status,String countrycode);
 
     @Query(nativeQuery = true, value = "select * from  ma_driver where id=?1 and status=?2 ")
     MaDriver findById(Long id, String status);

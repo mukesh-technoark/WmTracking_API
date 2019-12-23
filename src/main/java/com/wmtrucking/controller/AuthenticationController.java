@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wmtrucking.CommonResponseService;
+import com.wmtrucking.dtos.Authenticationdto;
 import com.wmtrucking.dtos.CommonResponse;
 import com.wmtrucking.dtos.LoginResponseDto;
 import com.wmtrucking.dtos.OTPVarifyDto;
@@ -55,16 +56,14 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public ResponseEntity<Object> authentication(Model model, HttpServletRequest request, @RequestHeader(name = "devicetoken") String devicetoken,
-            @RequestHeader(name = "apptoken") String apptoken, @ApiParam(value = "{\"phone\":\"phone\"}", required = true,
-                    defaultValue = "hi", name = "json") @RequestBody String json) throws InvalidHeaderException {
-        JsonObject requestData = new JsonParser().parse(json).getAsJsonObject();
+            @RequestHeader(name = "apptoken") String apptoken, @RequestBody @Valid Authenticationdto authenticationdto) throws InvalidHeaderException {
 
+        //JsonObject requestData = new JsonParser().parse(json).getAsJsonObject();
         appUtil.checkHeaders(request);
 
-        MaDriver maDriver = driverService.findByPhoneAndStatus(requestData.get("phone").getAsString(), "Active");
+        MaDriver maDriver = driverService.findByPhoneAndStatus(authenticationdto.getPhone(), "Active", authenticationdto.getCountryCode());
         if (maDriver == null) {
-            // commonResponseService.setResponse(response, 0, "Please Proper Mobile number ", null);
-            return new ResponseEntity(new CommonResponse("Please provide Proper Mobile number", null, 0, null), HttpStatus.CREATED);
+            return new ResponseEntity(new CommonResponse("Please provide Proper Mobile Number", null, 0, null), HttpStatus.CREATED);
         }
         String RandomeCode = "9999";
 
@@ -75,7 +74,7 @@ public class AuthenticationController {
 
         maDriver.setOtpExpireTime(smadate.getTime());
         driverService.save(maDriver);
-        return new ResponseEntity(new CommonResponse("Please verified your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(maDriver.getId(), 120)), 1, null), HttpStatus.CREATED);
+        return new ResponseEntity(new CommonResponse("Please verified your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(authenticationdto.getId(), 120)), 1, null), HttpStatus.CREATED);
 
     }
 

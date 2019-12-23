@@ -26,8 +26,8 @@ public class DriverService {
         driverRepository.save(maDriver);
     }
 
-    public MaDriver findByPhoneAndStatus(String phone, String status) {
-        return driverRepository.findByPhoneAndStatus(phone, status);
+    public MaDriver findByPhoneAndStatus(String phone, String status, String countrycode) {
+        return driverRepository.findByPhoneAndStatus(phone, status, countrycode);
     }
 
     public MaDriver findByUserForOTPvarify(Long otp, String status, Long id) {

@@ -59,7 +59,7 @@ public class MaDriver implements Serializable {
 //    private String address2;
 //    @Size(max = 2147483647)
 //    @Column(name = "address3")
- //   private String address3;
+    //   private String address3;
     @Size(max = 2147483647)
     @Column(name = "address2")
     private String address2;
@@ -97,6 +97,10 @@ public class MaDriver implements Serializable {
     private String status;
     @Column(name = "otp")
     private Long otp;
+
+    @JsonIgnore
+    @Column(name = "countrycode")
+    private String countrycode;
     @OneToMany(mappedBy = "driverid")
     private List<MaJobs> maJobsList;
     @OneToMany(mappedBy = "driverId")
@@ -145,6 +149,14 @@ public class MaDriver implements Serializable {
         this.id = id;
     }
 
+    public String getCountrycode() {
+        return countrycode;
+    }
+
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
+    }
+
     public Date getOtpExpireTime() {
         return otpExpireTime;
     }
@@ -168,7 +180,6 @@ public class MaDriver implements Serializable {
 //    public void setMaJobsCollection(List<MaJobs> maJobsCollection) {
 //        this.maJobsCollection = maJobsCollection;
 //    }
-
     public List<MaJobDriver> getMaJobDriverCollection() {
         return maJobDriverCollection;
     }
@@ -209,9 +220,11 @@ public class MaDriver implements Serializable {
     public void setMaJobTrackingList(List<MaJobTracking> maJobTrackingList) {
         this.maJobTrackingList = maJobTrackingList;
     }
+
     public List<MaJobTransaction> getMaJobTransactionList() {
         return maJobTransactionList;
     }
+
     public void setMaJobTransactionList(List<MaJobTransaction> maJobTransactionList) {
         this.maJobTransactionList = maJobTransactionList;
     }
@@ -248,10 +261,6 @@ public class MaDriver implements Serializable {
         this.lastname = lastname;
     }
 
-  
-
-    
-
     public String getAddress1() {
         return address1;
     }
@@ -260,15 +269,13 @@ public class MaDriver implements Serializable {
         this.address1 = address1;
     }
 
-    public String getAddress2() {  
+    public String getAddress2() {
         return address2;
     }
 
-    public void setAddress2(String address2) {    
+    public void setAddress2(String address2) {
         this.address2 = address2;
     }
-
-   
 
     public String getAddress3() {
         return address3;
@@ -294,7 +301,7 @@ public class MaDriver implements Serializable {
         this.state = state;
     }
 
-    public String getCountry() {   
+    public String getCountry() {
         return country;
     }
 
