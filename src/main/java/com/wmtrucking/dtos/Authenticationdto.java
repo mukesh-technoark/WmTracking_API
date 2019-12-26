@@ -22,9 +22,9 @@ public class Authenticationdto {
 
     @NotNull(message = "Please provide valid id")
    
-    private Long id;
-    @NotNull(message = "Please provide valid phone")
+//    private Long id;
+    @NotNull(message = "Please provide phone number")
     private String phone;
-    @NotNull(message = "Please provide valid Country Code")
+    @NotNull(message = "Please provide valid Country code")
     private String countryCode;
 }

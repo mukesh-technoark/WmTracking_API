@@ -6,10 +6,7 @@
 package com.wmtrucking.controller;
 
 import com.wmtrucking.service.DriverService;
-import io.swagger.annotations.ApiParam;
 import javax.servlet.http.HttpServletRequest;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.wmtrucking.CommonResponseService;
 import com.wmtrucking.dtos.Authenticationdto;
 import com.wmtrucking.dtos.CommonResponse;
@@ -63,7 +60,7 @@ public class AuthenticationController {
 
         MaDriver maDriver = driverService.findByPhoneAndStatus(authenticationdto.getPhone(), "Active", authenticationdto.getCountryCode());
         if (maDriver == null) {
-            return new ResponseEntity(new CommonResponse("Please provide Proper Mobile Number", null, 0, null), HttpStatus.CREATED);
+            return new ResponseEntity(new CommonResponse("Please provide proper mobile number", null, 0, null), HttpStatus.CREATED);
         }
         String RandomeCode = "9999";
 
@@ -74,7 +71,7 @@ public class AuthenticationController {
 
         maDriver.setOtpExpireTime(smadate.getTime());
         driverService.save(maDriver);
-        return new ResponseEntity(new CommonResponse("Please verified your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(authenticationdto.getId(), 120)), 1, null), HttpStatus.CREATED);
+        return new ResponseEntity(new CommonResponse("Please verified your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(maDriver.getId(), 120)), 1, null), HttpStatus.CREATED);
 
     }
 
@@ -104,7 +101,7 @@ public class AuthenticationController {
                 return new ResponseEntity(new CommonResponse("Your OTP is expired ", null, 0, null), HttpStatus.CREATED);
             }
         }
-        return new ResponseEntity(new CommonResponse("Please Enter proper OTP ", null, 0, null), HttpStatus.CREATED);
+        return new ResponseEntity(new CommonResponse("Please enter proper OTP ", null, 0, null), HttpStatus.CREATED);
 
     }
 }
