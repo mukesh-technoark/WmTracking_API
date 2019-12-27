@@ -66,7 +66,7 @@ public class JobPojo {
     }
 
     public String getStartstatus() {
-        return startstatus;
+        return startstatus== null ?"":startstatus ;
     }
 
     public void setStartstatus(String startstatus) {

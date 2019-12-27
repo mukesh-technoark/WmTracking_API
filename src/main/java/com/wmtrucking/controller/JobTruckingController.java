@@ -69,9 +69,9 @@ public class JobTruckingController {
             return new ResponseEntity(new CommonResponse("Your session is expired", null, 0, null), HttpStatus.CREATED);
         }
         Long driverid = Long.valueOf(id);
-       // MaJobs maJobs = jobService.findPendingJob(jobid, Constant.ACTIVE.toString(), driverid);
+        // MaJobs maJobs = jobService.findPendingJob(jobid, Constant.ACTIVE.toString(), driverid);
         //List<JobPojo> maJobs = jobService.getJob(Constant.ACTIVE.toString(),jobid, driverid);
-        JobPojo maJobs = jobService.getJob(Constant.ACTIVE.toString(),jobid, driverid, new Date());
+        JobPojo maJobs = jobService.getJob(Constant.ACTIVE.toString(), jobid, driverid, new Date());
         if (maJobs != null) {
             return new ResponseEntity(new CommonResponse("Fetch job successfully ", maJobs, 1, null), HttpStatus.CREATED);
         }
@@ -93,9 +93,8 @@ public class JobTruckingController {
         Long driverid = Long.valueOf(id);
 
         MaDriver maDriver = driverService.findById(driverid, Constant.ACTIVE.toString());
-      
+
         MaJobs maJobs = jobService.findTotalJob(jobTransactiondto.getJob_id(), Constant.ACTIVE.toString(), driverid);
-   
 
         if (maJobs != null && maDriver != null) {
 
@@ -114,7 +113,8 @@ public class JobTruckingController {
                  */
                 if (maJobTransaction == null) {
                     /**
-                     * transaction list must be less then job count for any driver*
+                     * transaction list must be less then job count for any
+                     * driver*
                      */
                     List<MaJobTransaction> totalJob = jobTransactionService.totalAvailableJob(maJobs.getId(), maJobs.getTotaljobcount());
                     if (totalJob.size() <= 0) {
@@ -143,7 +143,7 @@ public class JobTruckingController {
 
                     /**
                      * Update job status in job table when all transaction has
-                     * been completed  *
+                     * been completed *
                      */
                     Long totalTransation = jobTransactionService.totalJobTransactionCount(maJobs.getId());
                     if (totalTransation == maJobs.getTotaljobcount()) {
@@ -158,8 +158,7 @@ public class JobTruckingController {
         }
         return new ResponseEntity(new CommonResponse("Something went wrong ", null, 0, null), HttpStatus.CREATED);
     }
-    
-    
+
 //    @RequestMapping(value = "/jobLocationUpdate", method = RequestMethod.POST)
 //    public ResponseEntity<Object> jobLocationUpdate(Model model, HttpServletRequest request, @RequestHeader("Authorization") String Authorization,
 //            @RequestHeader("apptoken") String apptoken, @RequestHeader("devicetoken") String devicetoken,
