@@ -70,7 +70,8 @@ public class JobTruckingController {
         }
         Long driverid = Long.valueOf(id);
        // MaJobs maJobs = jobService.findPendingJob(jobid, Constant.ACTIVE.toString(), driverid);
-        List<JobPojo> maJobs = jobService.getJob(Constant.ACTIVE.toString(),jobid, driverid);
+        //List<JobPojo> maJobs = jobService.getJob(Constant.ACTIVE.toString(),jobid, driverid);
+        JobPojo maJobs = jobService.getJob(Constant.ACTIVE.toString(),jobid, driverid, new Date());
         if (maJobs != null) {
             return new ResponseEntity(new CommonResponse("Fetch job successfully ", maJobs, 1, null), HttpStatus.CREATED);
         }
