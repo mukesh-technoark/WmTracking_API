@@ -92,6 +92,8 @@ public class MaDriver implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "email")
     private String email;
+    @Column(name = "password")
+    private String Password;
     @Size(max = 2147483647)
     @Column(name = "status")
     private String status;
@@ -147,6 +149,14 @@ public class MaDriver implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
     }
 
     public String getCountrycode() {

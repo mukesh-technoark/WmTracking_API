@@ -34,6 +34,10 @@ public class DriverService {
         return driverRepository.findByUserForOTPvarify(otp, status, id);
     }
 
+    public MaDriver findByEmailAndStatus(String email, String status, String password) {
+        return driverRepository.findByEmailAndStatus(email, status, password);
+    }
+
     public MaDriver findById(Long id, String status) {
         return driverRepository.findById(id, status);
     }

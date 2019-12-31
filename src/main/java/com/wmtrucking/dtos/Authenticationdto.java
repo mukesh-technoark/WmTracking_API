@@ -21,10 +21,15 @@ public class Authenticationdto {
     }
 
     @NotNull(message = "Please provide valid id")
-   
-//    private Long id;
-    @NotNull(message = "Please provide phone number")
-    private String phone;
-    @NotNull(message = "Please provide valid Country code")
-    private String countryCode;
+
+//    @NotNull(message = "Please provide phone number")
+//    private String phone;
+//    @NotNull(message = "Please provide valid Country code")
+//    private String countryCode;
+    @NotNull(message = "Please provide Email")
+    private String  email;
+    
+    @NotNull(message = "Please provide password")
+    private String password;
+
 }
