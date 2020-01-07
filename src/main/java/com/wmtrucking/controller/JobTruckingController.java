@@ -49,15 +49,15 @@ public class JobTruckingController {
     AppUtil appUtil;
     @Autowired
     MaJWT maJWT;
-    @Autowired
-    JobService jobService;
+   
     @Autowired
     JobTrackingService jobTrackingService;
     @Autowired
     JobTransactionService jobTransactionService;
     @Autowired
     DriverService driverService;
-
+    @Autowired
+    JobService jobService;
     @RequestMapping(value = "/{jobid}", method = RequestMethod.GET)
     public ResponseEntity<Object> Job(Model model, HttpServletRequest request, @RequestHeader("Authorization") String Authorization,
             @RequestHeader("apptoken") String apptoken, @RequestHeader("devicetoken") String devicetoken, @PathVariable("jobid") Long jobid) throws InvalidHeaderException, InvalidTokenException {

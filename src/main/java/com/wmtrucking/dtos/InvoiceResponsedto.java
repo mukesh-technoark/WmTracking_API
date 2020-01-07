@@ -16,20 +16,16 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class JobTransactiondto {
+public class InvoiceResponsedto {
 
-    public JobTransactiondto() {
-    }
- 
-
-    
-    @NotNull(message = "Please provide valid job id")
+    @NotNull(message = "Please provide job id")
     private Long job_id;
+    @NotNull(message = "Please provide amount")
+    @NotBlank(message = "Please provide valid amount")
+    private String amount;
 
-    @NotNull(message = "Please provide valid flag")
-    @NotBlank(message = "Please provide valid flag")
-    private String flag;
-    
-    
+    @NotNull(message = "Please provide flag")
+    @NotBlank(message = "Please provide valid comments")
+    private String comments;
 
 }

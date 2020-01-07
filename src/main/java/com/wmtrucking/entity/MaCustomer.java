@@ -78,9 +78,13 @@ public class MaCustomer implements Serializable {
     @Column(name = "pincode")
     private String pincode;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Size(max = 2147483647)
     @Column(name = "phone")
     private String phone;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 2147483647)
     @Column(name = "email")
@@ -88,6 +92,9 @@ public class MaCustomer implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "status")
     private String status;
+    @Size(max = 2147483647)
+    @Column(name = "countrycode")
+    private String countrycode;
     @OneToMany(mappedBy = "customerId")
     private List<MaJobCustomer> maJobCustomerList;
     private static final long serialVersionUID = 1L;
@@ -141,6 +148,12 @@ public class MaCustomer implements Serializable {
     public String toString() {
         return "com.wmtrucking.entity.MaCustomer[ id=" + id + " ]";
     }
+    public List<MaJobCustomer> getMaJobCustomerList() {
+        return maJobCustomerList;
+    }
+    public void setMaJobCustomerList(List<MaJobCustomer> maJobCustomerList) {
+        this.maJobCustomerList = maJobCustomerList;
+    }
 
     public String getCompanyname() {
         return companyname;
@@ -190,6 +203,7 @@ public class MaCustomer implements Serializable {
         this.address2 = address2;
     }
 
+    
     public String getAddress3() {
         return address3;
     }
@@ -198,7 +212,6 @@ public class MaCustomer implements Serializable {
         this.address3 = address3;
     }
 
-    
     public String getCity() {
         return city;
     }
@@ -255,12 +268,12 @@ public class MaCustomer implements Serializable {
         this.status = status;
     }
 
-    public List<MaJobCustomer> getMaJobCustomerList() {
-        return maJobCustomerList;
+    public String getCountrycode() {
+        return countrycode;
     }
 
-    public void setMaJobCustomerList(List<MaJobCustomer> maJobCustomerList) {
-        this.maJobCustomerList = maJobCustomerList;
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
     }
     
 }

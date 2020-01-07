@@ -9,9 +9,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -89,16 +92,19 @@ public class MaDriver implements Serializable {
     @Column(name = "mobile")
     private String mobile;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 2147483647)
     @Column(name = "email")
     private String email;
-    @Column(name = "password")
-    private String Password;
     @Size(max = 2147483647)
     @Column(name = "status")
     private String status;
     @Column(name = "otp")
     private Long otp;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "maDriver")
+    private MaInvoice maInvoice;
+    @Column(name = "password")
+    private String Password;
 
     @JsonIgnore
     @Column(name = "countrycode")
@@ -238,6 +244,18 @@ public class MaDriver implements Serializable {
     public void setMaJobTransactionList(List<MaJobTransaction> maJobTransactionList) {
         this.maJobTransactionList = maJobTransactionList;
     }
+    public List<MaJobs> getMaJobsList() {
+        return maJobsList;
+    }
+    public void setMaJobsList(List<MaJobs> maJobsList) {
+        this.maJobsList = maJobsList;
+    }
+    public List<MaJobs> getMaJobsList1() {
+        return maJobsList1;
+    }
+    public void setMaJobsList1(List<MaJobs> maJobsList1) {
+        this.maJobsList1 = maJobsList1;
+    }
 
     public String getLicensenumber() {
         return licensenumber;
@@ -359,20 +377,12 @@ public class MaDriver implements Serializable {
         this.otp = otp;
     }
 
-    public List<MaJobs> getMaJobsList() {
-        return maJobsList;
+    public MaInvoice getMaInvoice() {
+        return maInvoice;
     }
 
-    public void setMaJobsList(List<MaJobs> maJobsList) {
-        this.maJobsList = maJobsList;
-    }
-
-    public List<MaJobs> getMaJobsList1() {
-        return maJobsList1;
-    }
-
-    public void setMaJobsList1(List<MaJobs> maJobsList1) {
-        this.maJobsList1 = maJobsList1;
+    public void setMaInvoice(MaInvoice maInvoice) {
+        this.maInvoice = maInvoice;
     }
 
 }
