@@ -1,6 +1,13 @@
 package com.wmtrucking.utils;
 
 public enum Constant {
+    URL {
+        @Override
+        public String toString() {
+            // return "http://54.171.107.227:8081/";
+            return "http://192.168.1.46:8080/wmtrucking/";
+        }
+    },
     JWT_KEY {
         @Override
         public String toString() {

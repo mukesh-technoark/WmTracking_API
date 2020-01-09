@@ -6,6 +6,7 @@
 package com.wmtrucking.service;
 
 import com.wmtrucking.entity.MaJobs;
+import com.wmtrucking.pojo.JobListPojo;
 import com.wmtrucking.pojo.JobPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,7 +19,6 @@ import java.util.Map;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 /**
  *
@@ -32,6 +32,9 @@ public class JobService {
     JobRepository jobRepository;
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplates;
 
     public void save(MaJobs maJobs) {
         jobRepository.save(maJobs);
@@ -55,6 +58,7 @@ public class JobService {
                 + "  where job_id=j.id))as customername ,j.jobdate,j.jobname,j.jobnumber, j.lodingaddress,j.dumpingaddress,"
                 + " (select string_agg(firstname, ', ') from ma_driver where id in (select driver_id from ma_job_driver where job_id=j.id))"
                 + " as drivername, j.job_status as jobstatus,  j.totaljobcount,"
+                + "(select count(id) from ma_invoice where jobid=:jobid and driverid=:driverid )as  invoice,"
                 + " (select status from ma_job_transaction where job_id=:jobid and driverid=:driverid and status='Started') as startStatus,"
                 + " (select count(id) from ma_job_transaction where job_id=:jobid and status='Ended')as  donejobcount,"
                 + "  (select count(id) from ma_job_transaction where job_id=:jobid and  cast(starttime as date)=:todaydate)as  pickupcount,"
@@ -72,9 +76,19 @@ public class JobService {
         parameters.put("todaydate", todaydate);
 
         //  List<JobPojo> jobPojo = jdbcTemplate.query(query, new Object[]{parameters }, new BeanPropertyRowMapper<JobPojo>(JobPojo.class));
+        JobPojo jobPojo = jdbcTemplate.queryForObject(query, parameters, new BeanPropertyRowMapper<JobPojo>(JobPojo.class));
+        return jobPojo;
+    }
 
-        JobPojo jobPojo = jdbcTemplate.queryForObject(query, parameters , new BeanPropertyRowMapper<JobPojo>(JobPojo.class));
-
+    public List<JobListPojo> getJobList(String satus, Long driverid) {
+        String query = "select j.id,j.jobdate,j.jobname,j.jobnumber, j.lodingaddress,j.dumpingaddress,"
+                + "            j.job_status as jobStatus,j.totaljobcount,"
+                + "j.fromlatitude as lodingLatitude,j.fromlongitude as lodingLongitude,j.tolatitude as dumpingLatitude,j.tolongitude as dumpingLongitude,"
+                + "		(select count(id) from ma_job_transaction where job_id=j.id and driverid=? and status='Ended')as  driverjobcount,"
+                + "(select count(id) from ma_job_transaction where job_id=j.id and status='Ended')as  totalDoneJobCount,"
+                + "(select count(id) from ma_invoice where jobid=j.id and driverid=? )as  invoice"
+                + "                	from ma_jobs j where j.status=? and j.id in(select job_id from ma_job_driver where driver_id=? )";
+        List<JobListPojo> jobPojo = jdbcTemplates.query(query, new Object[]{driverid,driverid, satus, driverid}, new BeanPropertyRowMapper<JobListPojo>(JobListPojo.class));
         return jobPojo;
     }
 
@@ -84,6 +98,10 @@ public class JobService {
 
     public MaJobs findTotalJob(Long jobId, String status, Long driverId) {
         return jobRepository.findTotalJob(jobId, status, driverId);
+    }
+
+    public MaJobs findCompletJob(Long jobId, String status, Long driverId, String job_status) {
+        return jobRepository.findCompletJob(jobId, status, driverId, job_status);
     }
 
 }

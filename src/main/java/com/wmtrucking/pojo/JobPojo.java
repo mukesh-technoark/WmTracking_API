@@ -16,6 +16,7 @@ public class JobPojo {
 
     String customername, jobname, jobdate, jobnumber, lodingaddress, dumpingaddress, drivername, jobstatus, startstatus;
     Long id;
+    int invoice;
     @JsonIgnore
     int totaljobcount;
     @JsonIgnore
@@ -51,6 +52,14 @@ public class JobPojo {
 
     public void setCustomername(String customername) {
         this.customername = customername;
+    }
+
+    public int getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(int invoice) {
+        this.invoice = invoice;
     }
 
     public String getJobname() {

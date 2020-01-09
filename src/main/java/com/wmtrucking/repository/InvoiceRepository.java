@@ -6,12 +6,20 @@
 package com.wmtrucking.repository;
 
 import com.wmtrucking.entity.MaInvoice;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Admin
  */
-public interface InvoiceRepository extends JpaRepository<MaInvoice , Long>{
-    
+@Repository
+@Scope(value = "request")
+public interface InvoiceRepository extends JpaRepository<MaInvoice, Long> {
+
+    @Query(nativeQuery = true, value = "select u.* from ma_invoice u where u.status=?1 and u.id=?2")
+    MaInvoice findoneinvoice(String satus, Long id);
+
 }

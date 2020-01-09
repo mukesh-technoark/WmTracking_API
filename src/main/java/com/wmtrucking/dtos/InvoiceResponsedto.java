@@ -20,11 +20,12 @@ public class InvoiceResponsedto {
 
     @NotNull(message = "Please provide job id")
     private Long job_id;
+   
     @NotNull(message = "Please provide amount")
     @NotBlank(message = "Please provide valid amount")
     private String amount;
 
-    @NotNull(message = "Please provide flag")
+    @NotNull(message = "Please provide comments")
     @NotBlank(message = "Please provide valid comments")
     private String comments;
 

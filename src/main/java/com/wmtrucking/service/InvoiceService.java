@@ -25,4 +25,8 @@ public class InvoiceService {
     public void save(MaInvoice maInvoice) {
         invoiceRepository.save(maInvoice);
     }
+    
+    public MaInvoice findoneinvoice(String satus, Long id) {
+        return invoiceRepository.findoneinvoice(satus, id);
+    }
 }

@@ -55,29 +55,7 @@ public class MaJobs implements Serializable {
     @Column(name = "other")
     private String other;
     @Size(max = 2147483647)
-//    @Column(name = "address1")
-//    private String address1;
-//    @Size(max = 2147483647)
-//    @Column(name = "address2")
-//    private String address2;
-//    @Size(max = 2147483647)
-//    @Column(name = "address3")
-//    private String address3;
-//    @Size(max = 2147483647)
-//    @Column(name = "city")
-//    private String city;
-//    @Size(max = 2147483647)
-//    @Column(name = "state")
-//    private String state;
-//    @Size(max = 2147483647)
-//    @Column(name = "country")
-//    private String country;
-//    @Size(max = 2147483647)
-//    @Column(name = "pincode")
-//    private String pincode;
     @Column(name = "address1")
-//    @Column(name = "request_status")
-//    private String requestStatus;
     private String address1;
     @Size(max = 2147483647)
     @Column(name = "address2")
@@ -125,6 +103,7 @@ public class MaJobs implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "price")
     private String price;
+    @JsonIgnore
     @OneToMany(mappedBy = "jobid")
     private List<MaInvoice> maInvoiceList;
     @JoinColumn(name = "driverid", referencedColumnName = "id")
@@ -358,27 +337,35 @@ public class MaJobs implements Serializable {
     public void setMaJobTransactionList(List<MaJobTransaction> maJobTransactionList) {
         this.maJobTransactionList = maJobTransactionList;
     }
+
     public String getRequestStatus() {
         return requestStatus;
     }
+
     public void setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
     }
+
     public MaDriver getDriverid() {
         return driverid;
     }
+
     public void setDriverid(MaDriver driverid) {
         this.driverid = driverid;
     }
+
     public MaDriver getDriverId() {
         return driverId;
     }
+
     public void setDriverId(MaDriver driverId) {
         this.driverId = driverId;
     }
+
     public List<MaJobCustomer> getMaJobCustomerList() {
         return maJobCustomerList;
     }
+
     public void setMaJobCustomerList(List<MaJobCustomer> maJobCustomerList) {
         this.maJobCustomerList = maJobCustomerList;
     }
@@ -477,8 +464,6 @@ public class MaJobs implements Serializable {
     public void setPincode(String pincode) {
         this.pincode = pincode;
     }
-
-  
 
     public String getJobname() {
         return jobname;

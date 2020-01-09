@@ -5,18 +5,20 @@
  */
 package com.wmtrucking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,6 +31,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "ma_invoice")
+@SequenceGenerator(name = "ma_invoice_seq", sequenceName = "ma_invoice_seq", allocationSize = 1)
+
 @NamedQueries({
     @NamedQuery(name = "MaInvoice.findAll", query = "SELECT m FROM MaInvoice m")})
 public class MaInvoice implements Serializable {
@@ -37,10 +41,9 @@ public class MaInvoice implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ma_invoice_seq")
     @Column(name = "id")
     private Long id;
-    @Column(name = "driverid")
-    private Long driverid;
     @Size(max = 2147483647)
     @Column(name = "amount")
     private String amount;
@@ -66,9 +69,11 @@ public class MaInvoice implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "toaddress")
     private String toaddress;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private MaDriver maDriver;
+    @JsonIgnore
+    @JoinColumn(name = "driverid", referencedColumnName = "id")
+    @ManyToOne
+    private MaDriver driverid;
+    @JsonIgnore
     @JoinColumn(name = "jobid", referencedColumnName = "id")
     @ManyToOne
     private MaJobs jobid;
@@ -86,14 +91,6 @@ public class MaInvoice implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getDriverid() {
-        return driverid;
-    }
-
-    public void setDriverid(Long driverid) {
-        this.driverid = driverid;
     }
 
     public String getAmount() {
@@ -168,12 +165,12 @@ public class MaInvoice implements Serializable {
         this.toaddress = toaddress;
     }
 
-    public MaDriver getMaDriver() {
-        return maDriver;
+    public MaDriver getDriverid() {
+        return driverid;
     }
 
-    public void setMaDriver(MaDriver maDriver) {
-        this.maDriver = maDriver;
+    public void setDriverid(MaDriver driverid) {
+        this.driverid = driverid;
     }
 
     public MaJobs getJobid() {
@@ -208,5 +205,5 @@ public class MaInvoice implements Serializable {
     public String toString() {
         return "com.wmtrucking.entity.MaInvoice[ id=" + id + " ]";
     }
-    
+
 }

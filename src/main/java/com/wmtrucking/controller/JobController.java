@@ -11,6 +11,7 @@ import com.wmtrucking.dtos.CommonResponse;
 import com.wmtrucking.entity.MaJobs;
 import com.wmtrucking.exceptions.InvalidHeaderException;
 import com.wmtrucking.exceptions.InvalidTokenException;
+import com.wmtrucking.pojo.JobListPojo;
 import com.wmtrucking.service.DriverService;
 import com.wmtrucking.service.JobService;
 import com.wmtrucking.service.JobTransactionService;
@@ -61,13 +62,12 @@ public class JobController {
 
         appUtil.checkHeadersWithAuth(request);
         String id = maJWT.getId(appUtil.getJwt(request), Authorization, devicetoken);
-
         if (id == null) {
             return new ResponseEntity(new CommonResponse("Your session is expired", null, 0, null), HttpStatus.CREATED);
         }
-
         Long driverid = Long.valueOf(id);
-        List<MaJobs> maJobs = jobService.findListOfJob(Constant.ACTIVE.toString(), driverid);
+        //   List<MaJobs> maJobs = jobService.findListOfJob(Constant.ACTIVE.toString(), driverid);
+        List<JobListPojo> maJobs = jobService.getJobList(Constant.ACTIVE.toString(),driverid);
 
         if (maJobs != null && maJobs.size() > 0) {
             return new ResponseEntity(new CommonResponse("Fetch list of job successfully ", maJobs, 1, null), HttpStatus.CREATED);
