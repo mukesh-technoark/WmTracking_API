@@ -7,6 +7,7 @@ package com.wmtrucking.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -46,7 +47,7 @@ public class MaInvoice implements Serializable {
     private Long id;
     @Size(max = 2147483647)
     @Column(name = "amount")
-    private String amount;
+    private BigDecimal amount;
     @Size(max = 2147483647)
     @Column(name = "comments")
     private String comments;
@@ -93,11 +94,11 @@ public class MaInvoice implements Serializable {
         this.id = id;
     }
 
-    public String getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

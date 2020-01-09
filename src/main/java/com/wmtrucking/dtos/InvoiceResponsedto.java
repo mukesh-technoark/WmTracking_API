@@ -5,6 +5,7 @@
  */
 package com.wmtrucking.dtos;
 
+import java.math.BigDecimal;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class InvoiceResponsedto {
    
     @NotNull(message = "Please provide amount")
     @NotBlank(message = "Please provide valid amount")
-    private String amount;
+    private BigDecimal amount;
 
     @NotNull(message = "Please provide comments")
     @NotBlank(message = "Please provide valid comments")

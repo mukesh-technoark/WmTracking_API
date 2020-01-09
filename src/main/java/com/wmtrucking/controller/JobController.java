@@ -72,7 +72,7 @@ public class JobController {
         if (maJobs != null && maJobs.size() > 0) {
             return new ResponseEntity(new CommonResponse("Fetch list of job successfully ", maJobs, 1, null), HttpStatus.CREATED);
         }
-        return new ResponseEntity(new CommonResponse("No record found ", new ArrayList<>(), 1, null), HttpStatus.CREATED);
+        return new ResponseEntity(new CommonResponse("No record found ", new ArrayList<>(), 0, null), HttpStatus.CREATED);
     }
 
 //    @RequestMapping(value = "/jobUpdate", method = RequestMethod.POST)

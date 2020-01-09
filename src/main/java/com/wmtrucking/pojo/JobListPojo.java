@@ -5,6 +5,7 @@
  */
 package com.wmtrucking.pojo;
 
+import com.wmtrucking.utils.Constant;
 import com.wmtrucking.utils.DateUtils;
 import java.math.BigDecimal;
 
@@ -16,8 +17,16 @@ public class JobListPojo {
 
     Long id;
     int totaljobcount, driverjobcount, totalDoneJobCount, invoice;
-    String jobname, jobnumber, lodingaddress, dumpingaddress, jobStatus, jobdate;
+    String jobname, jobnumber, lodingaddress, dumpingaddress, jobStatus, jobdate,invoiceurl;
     BigDecimal lodingLatitude, lodingLongitude, dumpingLatitude, dumpingLongitude;
+
+    public String getInvoiceurl() {
+        return Constant.INVOICEURL+String.valueOf(id);
+    }
+
+    public void setInvoiceurl(String invoiceurl) {
+        this.invoiceurl = invoiceurl;
+    }
 
     public Long getId() {
         return id;
