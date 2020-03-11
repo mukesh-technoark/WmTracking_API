@@ -6,6 +6,8 @@
 package com.wmtrucking.dtos;
 
 import java.math.BigDecimal;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,13 +23,14 @@ public class InvoiceResponsedto {
 
     @NotNull(message = "Please provide job id")
     private Long job_id;
-   
+
+ //   @DecimalMin(value = "0.0", inclusive = false)
+  // @Digits(integer = 3, fraction = 2)
     @NotNull(message = "Please provide amount")
-    @NotBlank(message = "Please provide valid amount")
+   // @NotBlank(message = "Please provide valid amount")
     private BigDecimal amount;
 
-    @NotNull(message = "Please provide comments")
-    @NotBlank(message = "Please provide valid comments")
+   
     private String comments;
 
 }

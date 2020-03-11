@@ -27,8 +27,13 @@ public class Authenticationdto {
 //    @NotNull(message = "Please provide valid Country code")
 //    private String countryCode;
     @NotNull(message = "Please provide Email")
-    private String  email;
-    
+    private String email;
+
+//    @NotNull(message = "Please provide devicetocken")
+//    private String devicetocken;
+
+ 
+
     @NotNull(message = "Please provide password")
     private String password;
 

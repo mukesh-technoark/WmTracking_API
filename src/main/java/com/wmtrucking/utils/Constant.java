@@ -1,16 +1,31 @@
 package com.wmtrucking.utils;
 
 public enum Constant {
+    MODE {
+        @Override
+        public String toString() {
+            return "Live";
+//            return "Local";
+        }
+    },
     WEBURL {
         @Override
         public String toString() {
-//             return "http://54.171.107.227:8081/";
-            return "http://192.168.1.46:8080/wmtrucking/";
+            return MODE.toString().equals("Local") ? "http://192.168.1.46:8080/wmtrucking/" : "http://54.171.107.227:8081/";
+
+// return "http://54.171.107.227:8081/";
+//            return "http://192.168.1.46:8080/wmtrucking/";
         }
-    },   INVOICEURL {
+    }, INVOICEURL {
         @Override
         public String toString() {
-            return WEBURL+"pdfAPI/";
+            return WEBURL + "pdfAPI/";
+        }
+    },
+    PUSH_CERTIFICATE {
+        @Override
+        public String toString() {
+            return "push_certi_dev.p12";
         }
     },
     JWT_KEY {

@@ -125,7 +125,7 @@ public class JobTruckingController {
                         maJobTransaction.setStarttime(new Date());
                         maJobTransaction.setStatus(Constant.STARTED.toString());
                         jobTransactionService.save(maJobTransaction);
-                        return new ResponseEntity(new CommonResponse("Job started succesfully ", maJobTransaction, 1, null), HttpStatus.CREATED);
+                        return new ResponseEntity(new CommonResponse("Job started successfully ", maJobTransaction, 1, null), HttpStatus.CREATED);
                     } else {
                         return new ResponseEntity(new CommonResponse("Whole job transaction has completed", null, 0, null), HttpStatus.CREATED);
                     }
@@ -150,7 +150,7 @@ public class JobTruckingController {
                         maJobs.setJobStatus(Constant.COMPLETED.toString());
                         jobService.save(maJobs);
                     }
-                    return new ResponseEntity(new CommonResponse("job ended succesfully ", maJobTransaction, 1, null), HttpStatus.CREATED);
+                    return new ResponseEntity(new CommonResponse("Job ended successfully", maJobTransaction, 1, null), HttpStatus.CREATED);
                 } else {
                     return new ResponseEntity(new CommonResponse("First we need to start the job ", null, 0, null), HttpStatus.CREATED);
                 }

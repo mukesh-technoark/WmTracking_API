@@ -33,7 +33,6 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "ma_driver")
 @SequenceGenerator(name = "ma_driver_seq", sequenceName = "ma_driver_seq", allocationSize = 1)
-
 @NamedQueries({
     @NamedQuery(name = "MaDriver.findAll", query = "SELECT m FROM MaDriver m")})
 public class MaDriver implements Serializable {
@@ -141,12 +140,16 @@ public class MaDriver implements Serializable {
     @OneToMany(mappedBy = "driverId")
     private List<MaJobDriver> maJobDriverCollection;
    
+    @JsonIgnore
+    @OneToMany(mappedBy = "driverid")
+    private List<MaPushNotification> maPushNotificationList;
+
     public MaDriver() {
     }
 
     public MaDriver(Long id) {
         this.id = id;
-    }  
+    }
 
     public Long getId() {
         return id;
@@ -162,6 +165,14 @@ public class MaDriver implements Serializable {
 
     public void setPassword(String Password) {
         this.Password = Password;
+    }
+
+    public List<MaPushNotification> getMaPushNotificationList() {
+        return maPushNotificationList;
+    }
+
+    public void setMaPushNotificationList(List<MaPushNotification> maPushNotificationList) {
+        this.maPushNotificationList = maPushNotificationList;
     }
 
     public String getCountrycode() {
@@ -387,7 +398,5 @@ public class MaDriver implements Serializable {
     public void setMaInvoiceList(List<MaInvoice> maInvoiceList) {
         this.maInvoiceList = maInvoiceList;
     }
-
-   
 
 }

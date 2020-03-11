@@ -8,7 +8,6 @@ package com.wmtrucking.controller;
 import com.google.gson.JsonObject;
 import com.wmtrucking.CommonResponseService;
 import com.wmtrucking.dtos.CommonResponse;
-import com.wmtrucking.entity.MaJobs;
 import com.wmtrucking.exceptions.InvalidHeaderException;
 import com.wmtrucking.exceptions.InvalidTokenException;
 import com.wmtrucking.pojo.JobListPojo;

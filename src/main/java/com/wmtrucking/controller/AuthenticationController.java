@@ -13,8 +13,11 @@ import com.wmtrucking.dtos.Authenticationdto;
 import com.wmtrucking.dtos.CommonResponse;
 import com.wmtrucking.dtos.OTPVarifyDto;
 import com.wmtrucking.entity.MaDriver;
+import com.wmtrucking.entity.MaPushNotification;
 import com.wmtrucking.exceptions.InvalidHeaderException;
+import com.wmtrucking.service.PushNotifcationService;
 import com.wmtrucking.utils.AppUtil;
+import com.wmtrucking.utils.Constant;
 import com.wmtrucking.utils.MaJWT;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -50,19 +53,22 @@ public class AuthenticationController {
     AppUtil appUtil;
     @Autowired
     MaJWT maJWT;
+    @Autowired
+    PushNotifcationService pushNotifcationService;
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public ResponseEntity<Object> authentication(Model model, HttpServletRequest request, @RequestHeader(name = "devicetoken") String devicetoken,
+            @RequestHeader(name = "devicetype") String devicetype,
             @RequestHeader(name = "apptoken") String apptoken, @RequestBody @Valid Authenticationdto authenticationdto) throws InvalidHeaderException {
 
         //JsonObject requestData = new JsonParser().parse(json).getAsJsonObject();
         appUtil.checkHeaders(request);
 
-   //     MaDriver maDriver = driverService.findByPhoneAndStatus(authenticationdto.getPhone(), "Active", authenticationdto.getCountryCode());
+        //     MaDriver maDriver = driverService.findByPhoneAndStatus(authenticationdto.getPhone(), "Active", authenticationdto.getCountryCode());
 //        if (maDriver == null) {
 //            return new ResponseEntity(new CommonResponse("Please provide proper mobile number", null, 0, null), HttpStatus.CREATED);
 //        }
-        MaDriver maDriver = driverService.findByEmailAndStatus(authenticationdto.getEmail(), "Active", authenticationdto.getPassword(), authenticationdto.getEmail());
+        MaDriver maDriver = driverService.findByEmailAndStatus(authenticationdto.getEmail(), Constant.ACTIVE.toString(), authenticationdto.getPassword(), authenticationdto.getEmail());
         if (maDriver == null) {
             return new ResponseEntity(new CommonResponse("Please provide proper value", null, 0, null), HttpStatus.CREATED);
         }
@@ -75,6 +81,21 @@ public class AuthenticationController {
 
         maDriver.setOtpExpireTime(smadate.getTime());
         driverService.save(maDriver);
+
+        MaPushNotification pushNotification = pushNotifcationService.findAlreadyExist(maDriver.getId(), Constant.ACTIVE.toString(), devicetoken);
+        if (pushNotification != null) {
+            pushNotification.setDatecreated(new Date());
+            pushNotification.setDevicetoken(devicetoken);
+        } else {
+            pushNotification = new MaPushNotification();
+            pushNotification.setDatecreated(new Date());
+            pushNotification.setStatus(Constant.ACTIVE.toString());
+            pushNotification.setDriverid(maDriver);
+            pushNotification.setDevicetoken(devicetoken);
+            pushNotification.setType(request.getHeader("DeviceType") == null ? null : devicetype);
+        }
+        pushNotifcationService.save(pushNotification);
+
         //return new ResponseEntity(new CommonResponse("Please verified your phone.", new LoginResponseDto(RandomeCode, new MaJWT().generateWithExpires(maDriver.getId(), 120)), 1, null), HttpStatus.CREATED);
         return new ResponseEntity(new CommonResponse("You are login successfully.", new OTPVarifyDto(new MaJWT().generate(maDriver.getId()), maDriver.getId(), maDriver.getFirstname(), maDriver.getMiddlename(), maDriver.getLastname()), 1, null), HttpStatus.CREATED);
     }

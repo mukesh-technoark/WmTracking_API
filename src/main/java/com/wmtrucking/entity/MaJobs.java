@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wmtrucking.utils.DateUtils;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -84,14 +83,22 @@ public class MaJobs implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "job_status")
     private String jobStatus;
+//    @Column(name = "fromlatitude")
+//    private BigDecimal fromlatitude;
+//    @Column(name = "tolatitude")
+//    private BigDecimal tolatitude;
+//    @Column(name = "fromlongitude")
+//    private BigDecimal fromlongitude;
+//    @Column(name = "tolongitude")
+//    private BigDecimal tolongitude;
     @Column(name = "fromlatitude")
-    private BigDecimal fromlatitude;
+    private String fromlatitude;
     @Column(name = "tolatitude")
-    private BigDecimal tolatitude;
+    private String tolatitude;
     @Column(name = "fromlongitude")
-    private BigDecimal fromlongitude;
+    private String fromlongitude;
     @Column(name = "tolongitude")
-    private BigDecimal tolongitude;
+    private String tolongitude;
     @Column(name = "totaljobcount")
     private Long totaljobcount;
     @Size(max = 2147483647)
@@ -103,6 +110,8 @@ public class MaJobs implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "price")
     private String price;
+    @Column(name = "isarchive")
+    private Boolean isarchive;
     @JsonIgnore
     @OneToMany(mappedBy = "jobid")
     private List<MaInvoice> maInvoiceList;
@@ -199,6 +208,14 @@ public class MaJobs implements Serializable {
 
     public void setJobdate(Date jobdate) {
         this.jobdate = jobdate;
+    }
+
+    public Boolean getIsarchive() {
+        return isarchive;
+    }
+
+    public void setIsarchive(Boolean isarchive) {
+        this.isarchive = isarchive;
     }
 
     public Date getCreateddate() {
@@ -473,37 +490,39 @@ public class MaJobs implements Serializable {
         this.jobname = jobname;
     }
 
-    public BigDecimal getFromlatitude() {
+    public String getFromlatitude() {
         return fromlatitude;
     }
 
-    public void setFromlatitude(BigDecimal fromlatitude) {
+    public void setFromlatitude(String fromlatitude) {
         this.fromlatitude = fromlatitude;
     }
 
-    public BigDecimal getTolatitude() {
+    public String getTolatitude() {
         return tolatitude;
     }
 
-    public void setTolatitude(BigDecimal tolatitude) {
+    public void setTolatitude(String tolatitude) {
         this.tolatitude = tolatitude;
     }
 
-    public BigDecimal getFromlongitude() {
+    public String getFromlongitude() {
         return fromlongitude;
     }
 
-    public void setFromlongitude(BigDecimal fromlongitude) {
+    public void setFromlongitude(String fromlongitude) {
         this.fromlongitude = fromlongitude;
     }
 
-    public BigDecimal getTolongitude() {
+    public String getTolongitude() {
         return tolongitude;
     }
 
-    public void setTolongitude(BigDecimal tolongitude) {
+    public void setTolongitude(String tolongitude) {
         this.tolongitude = tolongitude;
     }
+
+
 
     public Long getTotaljobcount() {
         return totaljobcount;

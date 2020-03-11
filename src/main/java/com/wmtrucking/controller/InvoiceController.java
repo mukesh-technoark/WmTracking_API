@@ -67,13 +67,13 @@ public class InvoiceController {
         MaJobs maJobs = jobService.findCompletJob(invoiceResponsedto.getJob_id(), Constant.ACTIVE.toString(), driverid, Constant.COMPLETED.toString());
         if (maDriver != null) {
             if (maJobs != null) {
-                String toaddress = "<span><b>" + maDriver.getFirstname() + " "
+                String fromaddress = "<span><b>" + maDriver.getFirstname() + " "
                         + ((maDriver.getMiddlename() != null && !maDriver.getMiddlename().equals("")) ? maDriver.getMiddlename() + " " : "")
                         + maDriver.getLastname() + "</b><br/></span><br/>" + (maDriver.getAddress1() != null ? maDriver.getAddress1() + "<br/>" : "")
                         + (maDriver.getCity() != null ? maDriver.getCity() + "-" : "") + (maDriver.getPincode() != null ? maDriver.getPincode() + "<br/>" : "")
                         + (maDriver.getMobile() != null ? maDriver.getMobile() : "");
 
-                String fromaddress = "<span><b>WM Trucking & Excavating</b><br/></span><br/>25400 Jack Rd, Hockley, TX 77447<br/>United States";
+                String toaddress  = "<span><b>WM Trucking & Excavating</b><br/></span><br/>25400 Jack Rd, Hockley, TX 77447<br/>United States";
                 MaInvoice maInvoice = new MaInvoice();
                 maInvoice.setDriverid(maDriver);
                 maInvoice.setJobid(maJobs);
@@ -87,7 +87,7 @@ public class InvoiceController {
                 invoiceService.save(maInvoice);
                 return new ResponseEntity(new CommonResponse("Invoice has been created successfully ", null, 1, null), HttpStatus.CREATED);
             }
-            return new ResponseEntity(new CommonResponse("Invoice has been already created ", null, 0, null), HttpStatus.CREATED);
+            return new ResponseEntity(new CommonResponse("This job is not available for create invoice", null, 0, null), HttpStatus.CREATED);
         }
         return new ResponseEntity(new CommonResponse("Something went wrong ", null, 0, null), HttpStatus.CREATED);
     }

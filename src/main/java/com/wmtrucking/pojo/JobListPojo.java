@@ -5,9 +5,7 @@
  */
 package com.wmtrucking.pojo;
 
-import com.wmtrucking.utils.Constant;
 import com.wmtrucking.utils.DateUtils;
-import java.math.BigDecimal;
 
 /**
  *
@@ -17,13 +15,13 @@ public class JobListPojo {
 
     Long id;
     int totaljobcount, driverjobcount, totalDoneJobCount, invoice;
-    String jobname, jobnumber, lodingaddress, dumpingaddress, jobStatus, jobdate,invoiceurl;
-    BigDecimal lodingLatitude, lodingLongitude, dumpingLatitude, dumpingLongitude;
+    String jobname, jobnumber, lodingaddress, dumpingaddress, jobStatus, jobdate, invoiceurl, startstatus,drivername;
+    String lodingLatitude, lodingLongitude, dumpingLatitude, dumpingLongitude;
+   
 
-    public String getInvoiceurl() {
-        return Constant.INVOICEURL+String.valueOf(id);
-    }
-
+//    public String getInvoiceurl() {
+//        return Constant.INVOICEURL+String.valueOf(id);
+//    }
     public void setInvoiceurl(String invoiceurl) {
         this.invoiceurl = invoiceurl;
     }
@@ -34,6 +32,23 @@ public class JobListPojo {
 
     public void setId(Long id) {
         this.id = id;
+    }
+  
+
+    public String getDrivername() {
+        return drivername;
+    }
+
+    public void setDrivername(String drivername) {
+        this.drivername = drivername;
+    }
+
+    public String getStartstatus() {
+        return startstatus == null ? "" : startstatus;
+        }
+
+    public void setStartstatus(String startstatus) {
+        this.startstatus = startstatus;
     }
 
     public int getTotaljobcount() {
@@ -116,36 +131,38 @@ public class JobListPojo {
         this.jobdate = jobdate;
     }
 
-    public BigDecimal getLodingLatitude() {
+    public String getLodingLatitude() {
         return lodingLatitude;
     }
 
-    public void setLodingLatitude(BigDecimal lodingLatitude) {
+    public void setLodingLatitude(String lodingLatitude) {
         this.lodingLatitude = lodingLatitude;
     }
 
-    public BigDecimal getLodingLongitude() {
+    public String getLodingLongitude() {
         return lodingLongitude;
     }
 
-    public void setLodingLongitude(BigDecimal lodingLongitude) {
+    public void setLodingLongitude(String lodingLongitude) {
         this.lodingLongitude = lodingLongitude;
     }
 
-    public BigDecimal getDumpingLatitude() {
+    public String getDumpingLatitude() {
         return dumpingLatitude;
     }
 
-    public void setDumpingLatitude(BigDecimal dumpingLatitude) {
+    public void setDumpingLatitude(String dumpingLatitude) {
         this.dumpingLatitude = dumpingLatitude;
     }
 
-    public BigDecimal getDumpingLongitude() {
+    public String getDumpingLongitude() {
         return dumpingLongitude;
     }
 
-    public void setDumpingLongitude(BigDecimal dumpingLongitude) {
+    public void setDumpingLongitude(String dumpingLongitude) {
         this.dumpingLongitude = dumpingLongitude;
     }
+
+
 
 }

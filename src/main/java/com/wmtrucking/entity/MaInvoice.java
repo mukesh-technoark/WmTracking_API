@@ -45,7 +45,7 @@ public class MaInvoice implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ma_invoice_seq")
     @Column(name = "id")
     private Long id;
-    @Size(max = 2147483647)
+ 
     @Column(name = "amount")
     private BigDecimal amount;
     @Size(max = 2147483647)
