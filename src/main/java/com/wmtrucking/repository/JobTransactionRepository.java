@@ -27,7 +27,7 @@ public interface JobTransactionRepository extends JpaRepository<MaJobTransaction
             + "job_id=?1) = ?2 ")
     List<MaJobTransaction> totalAvailableJob(Long jobid, Long totaljob);
 
-    @Query(nativeQuery = true, value = "select count(*) from ma_job_transaction where job_id=?1")
+    @Query(nativeQuery = true, value = "select count(*) from ma_job_transaction where job_id=?1 and endtime is not null")
      Long  totalJobTransactionCount(Long jobid);
 
 }

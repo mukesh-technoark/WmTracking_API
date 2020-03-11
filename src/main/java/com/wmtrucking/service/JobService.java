@@ -91,8 +91,19 @@ public class JobService {
     }
 
     public List<JobListPojo> getJobList(String satus, Long driverid) {
-        String query = "select j.id,j.jobdate,j.jobname,j.jobnumber, j.lodingaddress,j.dumpingaddress,j.totaljobcount,"
-                + "j.fromlatitude as lodingLatitude,j.fromlongitude as lodingLongitude,j.tolatitude as dumpingLatitude,j.tolongitude as dumpingLongitude,"
+//        String query = "select j.id,j.jobdate,j.jobname,j.jobnumber, j.lodingaddress,j.dumpingaddress,j.totaljobcount,"
+//                + "j.fromlatitude as lodingLatitude,j.fromlongitude as lodingLongitude,j.tolatitude as dumpingLatitude,j.tolongitude as dumpingLongitude,"
+//                + "		(select count(id) from ma_job_transaction where job_id=j.id and driverid=? and status='Ended')as  driverjobcount,"
+//                + "(select count(id) from ma_job_transaction where job_id=j.id and status='Ended')as  totalDoneJobCount,"
+//                + "(select count(id) from ma_invoice where jobid=j.id and driverid=? )as  invoice,"
+//                + "(select status from ma_job_transaction where job_id=j.id and driverid=? and status='Started') as startstatus,"
+//                + " (case when j.isarchive='false' then (case when (j.job_status='Completed') then 'Completed' else case when (j.job_status='Pending') then \n"
+//                + "                	(case when ((select count(id) from ma_job_transaction where job_id=j.id and driverid=? ) >0 ) then 'Active' "
+//                + "                 else 'Pending' end ) end end ) else 'Archived' end) as jobStatus,"
+//                + "(select firstname from ma_driver where id=? ) as drivername "
+//                + "     from ma_jobs j where j.status=? and j.id in(select job_id from ma_job_driver where driver_id=? )";
+
+       String query = "select j.id,j.jobdate,j.jobname,j.jobnumber, j.lodingaddress,j.dumpingaddress,j.totaljobcount,"
                 + "		(select count(id) from ma_job_transaction where job_id=j.id and driverid=? and status='Ended')as  driverjobcount,"
                 + "(select count(id) from ma_job_transaction where job_id=j.id and status='Ended')as  totalDoneJobCount,"
                 + "(select count(id) from ma_invoice where jobid=j.id and driverid=? )as  invoice,"

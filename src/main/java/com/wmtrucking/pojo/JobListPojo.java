@@ -16,7 +16,7 @@ public class JobListPojo {
     Long id;
     int totaljobcount, driverjobcount, totalDoneJobCount, invoice;
     String jobname, jobnumber, lodingaddress, dumpingaddress, jobStatus, jobdate, invoiceurl, startstatus,drivername;
-    String lodingLatitude, lodingLongitude, dumpingLatitude, dumpingLongitude;
+ //   String lodingLatitude, lodingLongitude, dumpingLatitude, dumpingLongitude;
    
 
 //    public String getInvoiceurl() {
@@ -130,39 +130,6 @@ public class JobListPojo {
     public void setJobdate(String jobdate) {
         this.jobdate = jobdate;
     }
-
-    public String getLodingLatitude() {
-        return lodingLatitude;
-    }
-
-    public void setLodingLatitude(String lodingLatitude) {
-        this.lodingLatitude = lodingLatitude;
-    }
-
-    public String getLodingLongitude() {
-        return lodingLongitude;
-    }
-
-    public void setLodingLongitude(String lodingLongitude) {
-        this.lodingLongitude = lodingLongitude;
-    }
-
-    public String getDumpingLatitude() {
-        return dumpingLatitude;
-    }
-
-    public void setDumpingLatitude(String dumpingLatitude) {
-        this.dumpingLatitude = dumpingLatitude;
-    }
-
-    public String getDumpingLongitude() {
-        return dumpingLongitude;
-    }
-
-    public void setDumpingLongitude(String dumpingLongitude) {
-        this.dumpingLongitude = dumpingLongitude;
-    }
-
 
 
 }
