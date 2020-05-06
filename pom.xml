@@ -11,7 +11,7 @@
     <groupId>com.wmtrucking</groupId>
     <artifactId>wmtrucking_API</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>wmTrucking_API</name>
     <description>wmTrucking</description>
 
