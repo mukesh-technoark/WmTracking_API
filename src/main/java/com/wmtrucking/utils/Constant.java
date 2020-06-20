@@ -11,7 +11,7 @@ public enum Constant {
     WEBURL {
         @Override
         public String toString() {
-            return MODE.toString().equals("Local") ? "http://192.168.1.46:8080/wmtrucking/" : "http://54.171.107.227:8081/";
+            return MODE.toString().equals("Local") ? "http://192.168.1.46:8080/wmtrucking/" : "http://62.252.239.190/wmt";
 
 // return "http://54.171.107.227:8081/";
 //            return "http://192.168.1.46:8080/wmtrucking/";
@@ -37,7 +37,7 @@ public enum Constant {
     FILEUPLOAD_PATH {
         @Override
         public String toString() {
-            return "c:/upload/equi360v3/";
+            return "/upload/wmt/";
 
 //            return MODE.toString().equals("local") ? "/Users/admin/Downloads/Uploads/" : "/upload/equi360v3/";
         }
