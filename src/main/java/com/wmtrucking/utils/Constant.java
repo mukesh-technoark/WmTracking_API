@@ -11,7 +11,7 @@ public enum Constant {
     WEBURL {
         @Override
         public String toString() {
-            return MODE.toString().equals("Local") ? "http://192.168.1.46:8080/wmtrucking/" : "http://62.252.239.190/wmt";
+            return MODE.toString().equals("Local") ? "http://192.168.1.46:8080/wmtrucking/" : "http://62.252.239.190/wmt/";
 
 // return "http://54.171.107.227:8081/";
 //            return "http://192.168.1.46:8080/wmtrucking/";
